@@ -1,0 +1,62 @@
+package xyz.mcnr.utils.commands;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import xyz.mcnr.utils.misc.CommandBase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Joins extends CommandBase {
+    @Override
+    public String name() {
+        return "joins";
+    }
+
+    @Override
+    public String usage() {
+        return "/joins <игрок>";
+    }
+
+    @Override
+    public String description() {
+        return "Первый и последний заходы игрока";
+    }
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+    @Override
+    public void run(CommandSender sender, Command command, String lable, String[] args) {
+        if (args.length == 0) {
+            sender.sendMessage(ChatColor.RED + usage());
+            return;
+        }
+
+        OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
+        if (player.getFirstPlayed() == 0) {
+            sender.sendMessage(ChatColor.RED + "Игрок не найден");
+            return;
+        }
+
+        long first = player.getFirstPlayed();
+        long last = player.getLastPlayed();
+
+        sender.sendMessage("\n" + player.getName());
+        sender.sendMessage("Первый заход: " + sdf.format(new Date(first)) + getTimeDiff(first));
+        if (player.isOnline())
+            sender.sendMessage("Сейчас на сервере");
+        else
+            sender.sendMessage("Последний заход: " + sdf.format(new Date(last)) + getTimeDiff(last));
+    }
+
+    private String getTimeDiff(long time) {
+        long diff = System.currentTimeMillis() - time;
+
+        if (diff < 3600000) return " (" + String.format("%.0f", Math.floor(diff / 60000f)) + " мин. назад)";
+        if (diff < 86400000) return " (" + String.format("%.0f", Math.floor(diff / 3600000f)) + " ч. назад)";
+        return " (" + String.format("%.0f", Math.floor(diff / 86400000f)) + " д. назад)";
+    }
+}
