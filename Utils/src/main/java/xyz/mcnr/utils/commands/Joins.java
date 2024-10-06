@@ -29,7 +29,7 @@ public class Joins extends CommandBase {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
-    public void run(CommandSender sender, Command command, String lable, String[] args) {
+    public void run(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
             sender.sendMessage(ChatColor.RED + usage());
             return;

@@ -22,7 +22,7 @@ public class Restart extends CommandBase {
     }
 
     @Override
-    public void run(CommandSender sender, Command command, String lable, String[] args) {
+    public void run(CommandSender sender, Command command, String label, String[] args) {
         sender.sendMessage(
                 "Через " + String.format("%.0f", Math.floor(((Main.restart.restartTime * 1000) - (System.currentTimeMillis() - Main.restart.startTime))/60000f)) + " мин."
         );

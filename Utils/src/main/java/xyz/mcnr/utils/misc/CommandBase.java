@@ -11,5 +11,5 @@ public abstract class CommandBase {
     // описание для /help
     public abstract String description();
 
-    public abstract void run(CommandSender sender, Command command, String lable, String[] args);
+    public abstract void run(CommandSender sender, Command command, String label, String[] args);
 }
