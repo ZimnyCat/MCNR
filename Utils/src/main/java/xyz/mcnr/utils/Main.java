@@ -16,18 +16,21 @@ import java.util.List;
 
 public class Main extends JavaPlugin implements Listener {
     public static RestartTask restart = new RestartTask();
+    public static TabTask tab = new TabTask();
+
     List<CommandBase> commands = List.of(
             new Joins(),
             new Restart()
     );
 
-    // регистрация ивентов, запуск задачи с авторестартом
+    // регистрация ивентов, запуск задач авторестарта и обновления таба
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
 
         restart.setStartTime(System.currentTimeMillis());
         restart.runTaskTimer(this, 20, 20);
+        tab.runTaskTimer(this, 20, 20);
     }
 
     // обработка команд плагина
@@ -64,5 +67,12 @@ public class Main extends JavaPlugin implements Listener {
         List.of("/me", "/ver", "/icanhasbukkit", "/about", "/bukkit:", "/?").forEach(element -> {
             if (event.getMessage().toLowerCase().startsWith(element)) event.setCancelled(true);
         });
+    }
+
+    // установка сообщений в табе
+    @EventHandler
+    public void join(PlayerJoinEvent event) {
+        event.getPlayer().setPlayerListHeader(ChatColor.RED + "MinecraftNoRules" + ChatColor.WHITE + "\ntg: @mcnrxyz\n");
+        tab.update(event.getPlayer());
     }
 }
