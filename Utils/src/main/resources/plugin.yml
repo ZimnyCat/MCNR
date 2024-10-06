@@ -20,3 +20,5 @@ commands:
     aliases: [l]
   ignore:
     usage: '/<command> <player>'
+  ignorelist:
+    usage: '/<command>'
