@@ -58,11 +58,18 @@ public class SocialHandler implements Listener {
     }
 
     public void send(CommandSender sender, CommandSender recipient, String message) {
+        SocialData senderSocial = getSocial(sender.getName());
+        SocialData recipientSocial = getSocial(recipient.getName());
+
+        if (senderSocial.isIgnoring(recipient) || recipientSocial.isIgnoring(sender)) {
+            return;
+        }
+
         sender.sendMessage(format(MESSAGE_TEMPLATE, sender.getName(), recipient.getName(), message));
         recipient.sendMessage(format(MESSAGE_TEMPLATE, sender.getName(), recipient.getName(), message));
 
-        getSocial(sender.getName()).setLastRecipient(recipient.getName());
-        getSocial(recipient.getName()).setLastSender(sender.getName());
+        senderSocial.setLastRecipient(recipient.getName());
+        recipientSocial.setLastSender(sender.getName());
     }
 
     private static String format(String str, Object... objects) {
