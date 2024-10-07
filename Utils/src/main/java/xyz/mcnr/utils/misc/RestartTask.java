@@ -18,11 +18,16 @@ public class RestartTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (System.currentTimeMillis() - startTime > restartTime * 1000) Bukkit.getServer().shutdown();
-        else if (!warns.isEmpty() && System.currentTimeMillis() - startTime > (restartTime - warns.getFirst().seconds) * 1000) {
+        if (passed(restartTime * 1000)) {
+            Bukkit.getServer().shutdown();
+        } else if (!warns.isEmpty() && passed((restartTime - warns.getFirst().seconds) * 1000)) {
             Bukkit.getServer().broadcastMessage("MCNR перезапустится через " + ChatColor.RED + warns.getFirst().msg);
             warns.removeFirst();
         }
+    }
+
+    private boolean passed(long time) {
+        return System.currentTimeMillis() - startTime > time;
     }
 
     public void setStartTime(long startTime) {

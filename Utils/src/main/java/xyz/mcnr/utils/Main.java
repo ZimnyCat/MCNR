@@ -10,23 +10,39 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.mcnr.utils.commands.*;
+import xyz.mcnr.utils.commands.social.*;
+import xyz.mcnr.utils.handlers.SocialHandler;
 import xyz.mcnr.utils.misc.*;
 
+import java.io.File;
 import java.util.List;
 
 public class Main extends JavaPlugin implements Listener {
-    public static RestartTask restart = new RestartTask();
-    public static TabTask tab = new TabTask();
+    private static final List<String> BLACKLISTED_COMMANDS =
+            List.of("/me", "/ver", "/icanhasbukkit", "/about", "/bukkit:", "/?");
+
+    public static final RestartTask restart = new RestartTask();
+    public static final TabTask tab = new TabTask();
+    public static final SocialHandler social = new SocialHandler();
+    private static File pluginFolder;
 
     List<CommandBase> commands = List.of(
             new Joins(),
-            new Restart()
+            new Restart(),
+            new Whisper(),
+            new Reply(),
+            new Last(),
+            new Ignore(),
+            new IgnoreList()
     );
 
     // регистрация ивентов, запуск задач авторестарта и обновления таба
     @Override
     public void onEnable() {
+        pluginFolder = getDataFolder();
+        pluginFolder.mkdirs();
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(social, this);
 
         restart.setStartTime(System.currentTimeMillis());
         restart.runTaskTimer(this, 20, 20);
@@ -64,7 +80,7 @@ public class Main extends JavaPlugin implements Listener {
     // LuckPerms? а может лучше...
     @EventHandler
     public void cancelCommands(PlayerCommandPreprocessEvent event) {
-        List.of("/me", "/ver", "/icanhasbukkit", "/about", "/bukkit:", "/?").forEach(element -> {
+        BLACKLISTED_COMMANDS.forEach(element -> {
             if (event.getMessage().toLowerCase().startsWith(element)) event.setCancelled(true);
         });
     }
@@ -74,5 +90,9 @@ public class Main extends JavaPlugin implements Listener {
     public void join(PlayerJoinEvent event) {
         event.getPlayer().setPlayerListHeader(ChatColor.RED + "MinecraftNoRules" + ChatColor.WHITE + "\ntg: @mcnrxyz\n");
         tab.update(event.getPlayer());
+    }
+
+    public static File getPluginFolder() {
+        return pluginFolder;
     }
 }
