@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public class TabTask extends BukkitRunnable {
     long last = 0;
-    String footer = "\nTPS: XX.XX  Ping: ";
+    String footer = "";
 
     @Override
     public void run() {

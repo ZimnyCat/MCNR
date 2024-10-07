@@ -48,7 +48,7 @@ public class Ignore extends CommandBase {
 
         SocialData social = Main.social.getSocial(sender.getName());
         if (System.currentTimeMillis() - social.getLastIgnoreUpdate() < 3000) {
-            sender.sendMessage(ChatColor.RED + "Подождите перед использованием этой команды");
+            sender.sendMessage(ChatColor.RED + "Слишком быстро!");
             return;
         }
 
@@ -56,10 +56,10 @@ public class Ignore extends CommandBase {
         social.setLastIgnoreUpdate(System.currentTimeMillis());
         if (list.contains(name)) {
             list.remove(name);
-            sender.sendMessage("Показываем сообщения от игрока %s".formatted(args[0]));
+            sender.sendMessage("Сообщения от %s скрыты".formatted(args[0]));
         } else {
             list.add(name);
-            sender.sendMessage("Скрываем сообщения от игрока %s".formatted(args[0]));
+            sender.sendMessage("Сообщения от %s показываются".formatted(args[0]));
         }
 
         Path path = Path.of(Main.getPluginFolder().getPath(), sender.getName() + ".txt");

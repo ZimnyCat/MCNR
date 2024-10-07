@@ -27,13 +27,13 @@ public class Main extends JavaPlugin implements Listener {
     private static File pluginFolder;
 
     List<CommandBase> commands = List.of(
-            new Joins(),
-            new Restart(),
+            new Ignore(),
             new Whisper(),
             new Reply(),
             new Last(),
-            new Ignore(),
-            new IgnoreList()
+            new IgnoreList(),
+            new Joins(),
+            new Restart()
     );
 
     // регистрация ивентов, запуск задач авторестарта и обновления таба

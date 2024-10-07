@@ -18,12 +18,12 @@ public class IgnoreList extends CommandBase {
 
     @Override
     public String description() {
-        return "Показать чёрный список"; // придумайте получше пж
+        return "Список игнорируемых вами игроков";
     }
 
     @Override
     public void run(CommandSender sender, Command command, String label, String[] args) {
         String list = String.join(", ", Main.social.getSocial(sender.getName()).getIgnoreList());
-        sender.sendMessage("Чёрный список: " + list);
+        sender.sendMessage("Игнор-список: " + list);
     }
 }

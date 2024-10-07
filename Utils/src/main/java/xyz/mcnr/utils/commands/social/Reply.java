@@ -12,17 +12,17 @@ import xyz.mcnr.utils.misc.SocialData;
 public class Reply extends CommandBase {
     @Override
     public String name() {
-        return "reply";
+        return "r";
     }
 
     @Override
     public String usage() {
-        return "/reply <сообщение>";
+        return "/r <сообщение>";
     }
 
     @Override
     public String description() {
-        return "Ответить на последнее сообщение";
+        return "Ответ на ЛС";
     }
 
     @Override
@@ -35,7 +35,7 @@ public class Reply extends CommandBase {
         SocialData social = Main.social.getSocial(sender.getName());
         String last = social.getLastSender();
         if (last == null) {
-            sender.sendMessage(ChatColor.RED + "Вам еще никто не писал");
+            sender.sendMessage(ChatColor.RED + "Вам ещё никто не писал");
             return;
         }
 

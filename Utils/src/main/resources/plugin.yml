@@ -9,16 +9,17 @@ commands:
     usage: '/rst'
   joins:
     usage: '/joins <player>'
-  whisper:
+  w:
     usage: '/<command> <player> <message>'
-    aliases: [w, msg, pm]
-  reply:
+    aliases: [msg, pm]
+  r:
     usage: '/<command> <message>'
-    aliases: [r]
   last:
     usage: '/<command> <message>'
     aliases: [l]
   ignore:
     usage: '/<command> <player>'
+    aliases: [i, ign]
   ignorelist:
     usage: '/<command>'
+    aliases: [il]

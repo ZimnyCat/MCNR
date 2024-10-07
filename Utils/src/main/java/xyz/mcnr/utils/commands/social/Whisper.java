@@ -14,17 +14,17 @@ import java.util.Arrays;
 public class Whisper extends CommandBase {
     @Override
     public String name() {
-        return "whisper";
+        return "w";
     }
 
     @Override
     public String usage() {
-        return "/whisper <игрок> <сообщение>";
+        return "/w <игрок> <сообщение>";
     }
 
     @Override
     public String description() {
-        return "Отправить личное сообщение игроку";
+        return "Личное сообщение";
     }
 
     @Override

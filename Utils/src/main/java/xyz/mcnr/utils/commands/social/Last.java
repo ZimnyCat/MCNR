@@ -22,7 +22,7 @@ public class Last extends CommandBase {
 
     @Override
     public String description() {
-        return "Отправить личное сообщению последнему получателю";
+        return "ЛС последнему получателю";
     }
 
     @Override
@@ -35,7 +35,7 @@ public class Last extends CommandBase {
         SocialData social = Main.social.getSocial(sender.getName());
         String last = social.getLastRecipient();
         if (last == null) {
-            sender.sendMessage(ChatColor.RED + "Вы еще никому не писали");
+            sender.sendMessage(ChatColor.RED + "Вы ещё никому не писали");
             return;
         }
 
