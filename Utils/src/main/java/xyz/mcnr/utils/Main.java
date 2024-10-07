@@ -52,7 +52,12 @@ public class Main extends JavaPlugin implements Listener {
     // обработка команд плагина
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("help") && sender instanceof Player) help((Player) sender);
+        if (command.getName().equalsIgnoreCase("help")) {
+            sender.sendMessage("\n");
+            commands.forEach(cmd ->
+                    sender.sendMessage(cmd.description() + " — " + ChatColor.RED + cmd.usage())
+            );
+        }
         commands.forEach(cmd -> {
             if (command.getName().equalsIgnoreCase(cmd.name())) cmd.run(sender, command, label, args);
         });
@@ -62,19 +67,12 @@ public class Main extends JavaPlugin implements Listener {
     // вывод /help при первом заходе
     @EventHandler
     public void firstJoin(PlayerJoinEvent event) {
-        if (!event.getPlayer().hasPlayedBefore()) help(event.getPlayer());
-    }
-
-    // вывод /help
-    public void help(Player player) {
-        player.sendMessage(ChatColor.RED + "\nMinecraftNoRules");
-        player.sendMessage("Ванильное выживание на карте в 20000 на 20000 блоков без правил и вмешательства администрации");
-        player.sendMessage("Игнор в чате - " + ChatColor.RED + "/ignore <игрок>");
-        player.sendMessage("Личное сообщение - " + ChatColor.RED + "/msg <игрок> <сообщение>");
-        player.sendMessage("Ответ на ЛС - " + ChatColor.RED + "/r <сообщение>");
-        commands.forEach(cmd ->
-            player.sendMessage(cmd.description() + " - " + ChatColor.RED + cmd.usage())
-        );
+        Player player = event.getPlayer();
+        if (!player.hasPlayedBefore()) {
+            player.sendMessage(ChatColor.RED + "\nMinecraftNoRules");
+            player.sendMessage("Ванильное выживание на карте в 20000 на 20000 блоков без правил и вмешательства администрации");
+            player.sendMessage("Команды сервера — " + ChatColor.RED + "/help");
+        }
     }
 
     // LuckPerms? а может лучше...
