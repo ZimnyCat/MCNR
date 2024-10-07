@@ -40,11 +40,6 @@ public class Whisper extends CommandBase {
             return;
         }
 
-        if (player == sender) {
-            sender.sendMessage(ChatColor.RED + "Нельзя писать самому себе");
-            return;
-        }
-
         String message = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 
         Main.social.send(sender, player, message);
