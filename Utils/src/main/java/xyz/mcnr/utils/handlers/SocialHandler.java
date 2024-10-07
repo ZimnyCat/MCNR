@@ -61,7 +61,13 @@ public class SocialHandler implements Listener {
         SocialData senderSocial = getSocial(sender.getName());
         SocialData recipientSocial = getSocial(recipient.getName());
 
-        if (senderSocial.isIgnoring(recipient) || recipientSocial.isIgnoring(sender)) {
+        if (senderSocial.isIgnoring(recipient)) {
+            sender.sendMessage(recipient.getName() + " игнорируется вами");
+            return;
+        }
+
+        if (recipientSocial.isIgnoring(sender)) {
+            sender.sendMessage(recipient.getName() + " игнорирует вас");
             return;
         }
 
