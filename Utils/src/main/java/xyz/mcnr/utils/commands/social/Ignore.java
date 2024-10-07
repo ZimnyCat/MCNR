@@ -56,10 +56,10 @@ public class Ignore extends CommandBase {
         social.setLastIgnoreUpdate(System.currentTimeMillis());
         if (list.contains(name)) {
             list.remove(name);
-            sender.sendMessage("Сообщения от %s скрыты".formatted(args[0]));
+            sender.sendMessage("Сообщения от %s показываются".formatted(args[0]));
         } else {
             list.add(name);
-            sender.sendMessage("Сообщения от %s показываются".formatted(args[0]));
+            sender.sendMessage("Сообщения от %s скрыты".formatted(args[0]));
         }
 
         Path path = Path.of(Main.getPluginFolder().getPath(), sender.getName() + ".txt");
