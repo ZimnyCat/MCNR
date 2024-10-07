@@ -1,9 +1,10 @@
 package xyz.mcnr.utils.misc;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SocialData {
     private final List<String> ignoreList = new ArrayList<>();
@@ -39,6 +40,10 @@ public class SocialData {
 
     public List<String> getIgnoreList() {
         return ignoreList;
+    }
+
+    public boolean isIgnoring(CommandSender player) {
+        return ignoreList.contains(player.getName().toLowerCase(Locale.ROOT));
     }
 
     public long getLastIgnoreUpdate() {
