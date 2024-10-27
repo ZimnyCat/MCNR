@@ -58,6 +58,12 @@ public class SocialHandler implements Listener {
     }
 
     public void send(CommandSender sender, CommandSender recipient, String message) {
+        message = message.trim();
+        if (message.isBlank()) {
+            sender.sendMessage("Вы отправили пустое сообщение");
+            return;
+        }
+
         SocialData senderSocial = getSocial(sender.getName());
         SocialData recipientSocial = getSocial(recipient.getName());
 
