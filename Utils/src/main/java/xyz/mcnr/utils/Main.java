@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.mcnr.utils.commands.*;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class Main extends JavaPlugin implements Listener {
     private static final List<String> BLACKLISTED_COMMANDS =
-            List.of("/me", "/ver", "/icanhasbukkit", "/about", "/bukkit:", "/?");
+            List.of("/me", "/ver", "/icanhasbukkit", "/about", "/bukkit:", "/?", "/minecraft:");
 
     public static final RestartTask restart = new RestartTask();
     public static final TabTask tab = new TabTask();
@@ -80,6 +81,17 @@ public class Main extends JavaPlugin implements Listener {
     public void cancelCommands(PlayerCommandPreprocessEvent event) {
         BLACKLISTED_COMMANDS.forEach(element -> {
             if (event.getMessage().toLowerCase().startsWith(element)) event.setCancelled(true);
+        });
+    }
+
+    @EventHandler
+    public void cancelCommands(PlayerCommandSendEvent event) {
+        event.getCommands().removeIf(c -> {
+            for (String s : BLACKLISTED_COMMANDS) {
+                if (c.toLowerCase().startsWith(s.substring(1)))
+                    return true;
+            }
+            return false;
         });
     }
 
