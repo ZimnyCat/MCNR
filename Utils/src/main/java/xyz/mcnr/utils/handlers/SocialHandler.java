@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.mcnr.utils.Main;
 import xyz.mcnr.utils.misc.SocialData;
 
@@ -36,7 +37,7 @@ public class SocialHandler implements Listener {
 
 
     @EventHandler
-    private void onQuit(PlayerJoinEvent event) {
+    private void onQuit(PlayerQuitEvent event) {
         socials.remove(event.getPlayer().getName());
     }
 
