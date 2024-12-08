@@ -44,7 +44,7 @@ public class SocialHandler implements Listener {
     @EventHandler
     private void onPlayerSendMessage(AsyncPlayerChatEvent event) {
         for (SocialData data : socials.values()) {
-            if (data.getIgnoreList().contains(event.getPlayer().getName())) {
+            if (data.getIgnoreList().contains(event.getPlayer().getName().toLowerCase())) {
                 event.getRecipients().remove(data.getPlayer());
             }
         }
