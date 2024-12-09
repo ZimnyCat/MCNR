@@ -1,6 +1,7 @@
 package xyz.mcnr.utils;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.mcnr.utils.commands.*;
 import xyz.mcnr.utils.commands.social.*;
@@ -100,6 +102,18 @@ public class Main extends JavaPlugin implements Listener {
     public void join(PlayerJoinEvent event) {
         event.getPlayer().setPlayerListHeader(ChatColor.RED + "MinecraftNoRules" + ChatColor.WHITE + "\ntg: @mcnrxyz\n");
         tab.update(event.getPlayer());
+    }
+
+    // потолок скорости
+    @EventHandler
+    public void speedCap(PlayerMoveEvent event) {
+        if (event.getTo() == null) return;
+
+        double x = event.getTo().getX() - event.getFrom().getX();
+        double z = event.getTo().getZ() - event.getFrom().getZ();
+        double distance = Math.sqrt(x*x + z*z);
+        
+        if (distance > 2.5) event.setCancelled(true);
     }
 
     public static File getPluginFolder() {
