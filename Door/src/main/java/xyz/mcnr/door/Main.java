@@ -8,14 +8,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Main extends JavaPlugin implements Listener {
 
+    private static final List<String> WHITELIST = List.of("/l", "/reg", "/join", "/change");
     HashMap<Player, Long> senders = new HashMap<>();
     long startTime;
 
@@ -69,5 +73,30 @@ public class Main extends JavaPlugin implements Listener {
             );
             event.setCancelled(true);
         }
+    }
+
+    // вайтлист команд
+    @EventHandler
+    public void enforceWhitelist(PlayerCommandPreprocessEvent event) {
+        event.setCancelled(true);
+        WHITELIST.forEach(element -> {
+            if (event.getMessage().toLowerCase().startsWith(element)) event.setCancelled(false);
+        });
+    }
+
+    @EventHandler
+    public void enforceWhitelist(PlayerCommandSendEvent event) {
+        event.getCommands().removeIf(c -> {
+            for (String s : WHITELIST) {
+                if (c.toLowerCase().startsWith(s.substring(1)))
+                    return false;
+            }
+            return true;
+        });
+    }
+
+    @EventHandler
+    public void disableChat(AsyncPlayerChatEvent event) {
+        event.setCancelled(true);
     }
 }
