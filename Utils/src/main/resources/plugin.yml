@@ -11,7 +11,7 @@ commands:
     usage: '/joins <player>'
   w:
     usage: '/<command> <player> <message>'
-    aliases: [msg, pm]
+    aliases: [msg, pm, tell]
   r:
     usage: '/<command> <message>'
   last:
