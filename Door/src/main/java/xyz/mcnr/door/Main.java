@@ -78,10 +78,10 @@ public class Main extends JavaPlugin implements Listener {
     // вайтлист команд
     @EventHandler
     public void enforceWhitelist(PlayerCommandPreprocessEvent event) {
+        for (String cmd : WHITELIST) {
+            if (event.getMessage().toLowerCase().startsWith(cmd)) return;
+        }
         event.setCancelled(true);
-        WHITELIST.forEach(element -> {
-            if (event.getMessage().toLowerCase().startsWith(element)) event.setCancelled(false);
-        });
     }
 
     @EventHandler
