@@ -8,9 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerCommandSendEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -20,7 +18,8 @@ import java.util.List;
 public class Main extends JavaPlugin implements Listener {
 
     private static final List<String> WHITELIST = List.of("/l", "/reg", "/join", "/change");
-    HashMap<Player, Long> senders = new HashMap<>();
+    HashMap<Player, Long> joinSenders = new HashMap<>();
+    HashMap<Player, Long> kickList = new HashMap<>();
     long startTime;
 
     @Override
@@ -38,6 +37,18 @@ public class Main extends JavaPlugin implements Listener {
             }
         };
         restart.runTaskTimer(this, 20, 20);
+
+        // кик за афк (60 сек)
+        BukkitRunnable kick = new BukkitRunnable() {
+            @Override
+            public void run() {
+                kickList.forEach((player, ms) -> {
+                    if (System.currentTimeMillis() - ms > 60000 && player.isOnline())
+                        player.kickPlayer("AFK");
+                });
+            }
+        };
+        kick.runTaskTimer(this, 20, 20);
     }
 
     @Override
@@ -48,6 +59,7 @@ public class Main extends JavaPlugin implements Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("join") && sender instanceof Player) {
+            kickList.put((Player) sender, System.currentTimeMillis());
             sender.sendMessage("Подключение...");
 
             // подключение sender к серверу выживания через канал BungeeCord
@@ -56,7 +68,7 @@ public class Main extends JavaPlugin implements Listener {
             out.writeUTF("surv");
 
             ((Player) sender).sendPluginMessage(this, "BungeeCord", out.toByteArray());
-            senders.put((Player) sender, System.currentTimeMillis());
+            joinSenders.put((Player) sender, System.currentTimeMillis());
         }
         return true;
     }
@@ -64,9 +76,9 @@ public class Main extends JavaPlugin implements Listener {
     // задержа для /join
     @EventHandler
     public void cooldown(PlayerCommandPreprocessEvent event) {
-        if (!senders.containsKey(event.getPlayer()) || !event.getMessage().toLowerCase().startsWith("/join")) return;
+        if (!joinSenders.containsKey(event.getPlayer()) || !event.getMessage().toLowerCase().startsWith("/join")) return;
 
-        long diff = (System.currentTimeMillis() - senders.get(event.getPlayer()));
+        long diff = (System.currentTimeMillis() - joinSenders.get(event.getPlayer()));
         if (diff < 20000) {
             event.getPlayer().sendMessage(
                     "Слишком часто! Подождите ещё " + ChatColor.RED + String.format("%.0f", 20 - Math.floor(diff/1000f)) + " сек."
@@ -98,5 +110,10 @@ public class Main extends JavaPlugin implements Listener {
     @EventHandler
     public void disableChat(AsyncPlayerChatEvent event) {
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        kickList.put(event.getPlayer(), System.currentTimeMillis());
     }
 }
