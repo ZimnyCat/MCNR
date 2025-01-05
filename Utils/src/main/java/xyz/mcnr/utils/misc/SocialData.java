@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Locale;
 
 public class SocialData {
+    private final List<String> afkMessages = new ArrayList<>();
     private final List<String> ignoreList = new ArrayList<>();
     private final Player player;
 
     private long lastIgnoreUpdate;
     private String lastRecipient;
     private String lastSender;
+    private boolean afk;
 
     public SocialData(Player player) {
         this.player = player;
@@ -52,5 +54,17 @@ public class SocialData {
 
     public void setLastIgnoreUpdate(long lastIgnoreUpdate) {
         this.lastIgnoreUpdate = lastIgnoreUpdate;
+    }
+
+    public boolean isAfk() {
+        return afk;
+    }
+
+    public void setAfk(boolean afk) {
+        this.afk = afk;
+    }
+
+    public List<String> getAfkMessages() {
+        return afkMessages;
     }
 }
