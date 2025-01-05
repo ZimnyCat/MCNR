@@ -1,7 +1,6 @@
 package xyz.mcnr.utils;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -36,7 +35,8 @@ public class Main extends JavaPlugin implements Listener {
             new Last(),
             new IgnoreList(),
             new Joins(),
-            new Restart()
+            new Restart(),
+            new AFK()
     );
 
     // регистрация ивентов, запуск задач авторестарта и обновления таба

@@ -23,3 +23,5 @@ commands:
   ignorelist:
     usage: '/<command>'
     aliases: [il]
+  afk:
+    usage: '/<command>'

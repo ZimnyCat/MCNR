@@ -8,6 +8,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.mcnr.utils.Main;
+import xyz.mcnr.utils.commands.social.AFK;
 import xyz.mcnr.utils.misc.SocialData;
 
 import java.io.IOException;
@@ -43,6 +44,11 @@ public class SocialHandler implements Listener {
 
     @EventHandler
     private void onPlayerSendMessage(AsyncPlayerChatEvent event) {
+        SocialData social = getSocial(event.getPlayer().getName());
+        if (social.isAfk()) {
+            AFK.exitAFK(event.getPlayer(), social);
+        }
+
         for (SocialData data : socials.values()) {
             if (data.getIgnoreList().contains(event.getPlayer().getName().toLowerCase())) {
                 event.getRecipients().remove(data.getPlayer());
@@ -78,8 +84,15 @@ public class SocialHandler implements Listener {
             return;
         }
 
-        sender.sendMessage(format(MESSAGE_TEMPLATE, sender.getName(), recipient.getName(), message));
-        recipient.sendMessage(format(MESSAGE_TEMPLATE, sender.getName(), recipient.getName(), message));
+        String formatted = format(MESSAGE_TEMPLATE, sender.getName(), recipient.getName(), message);
+
+        if (recipientSocial.isAfk()) {
+            sender.sendMessage(recipient.getName() + " находится AFK");
+            recipientSocial.getAfkMessages().add(formatted);
+        } else {
+            sender.sendMessage(formatted);
+            recipient.sendMessage(formatted);
+        }
 
         senderSocial.setLastRecipient(recipient.getName());
         recipientSocial.setLastSender(sender.getName());
