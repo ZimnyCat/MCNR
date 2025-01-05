@@ -30,7 +30,7 @@ public class AFK extends CommandBase {
         social.setAfk(!social.isAfk());
 
         if (social.isAfk()) {
-            sender.sendMessage("Вы отошли.");
+            sender.sendMessage("Вы отошли");
             return;
         }
 
@@ -39,9 +39,7 @@ public class AFK extends CommandBase {
 
     public static void exitAFK(CommandSender target, SocialData social) {
         List<String> msgs = social.getAfkMessages();
-        int s = msgs.size();
-        // лень писать код нормальный для 1, 2, 11 и тд сообщнений
-        target.sendMessage("Вы вернулись. \n" + s + " новых сообщений: ");
+        target.sendMessage("Вы вернулись\nНовые сообщения:");
         for (String msg : msgs) {
             target.sendMessage(msg);
         }

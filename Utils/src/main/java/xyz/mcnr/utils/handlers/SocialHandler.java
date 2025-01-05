@@ -67,7 +67,7 @@ public class SocialHandler implements Listener {
     public void send(CommandSender sender, CommandSender recipient, String message) {
         message = message.trim();
         if (message.isBlank()) {
-            sender.sendMessage("Вы отправили пустое сообщение");
+            sender.sendMessage(ChatColor.RED + "Вы отправили пустое сообщение");
             return;
         }
 
@@ -75,20 +75,25 @@ public class SocialHandler implements Listener {
         SocialData recipientSocial = getSocial(recipient.getName());
 
         if (senderSocial.isIgnoring(recipient)) {
-            sender.sendMessage(recipient.getName() + " игнорируется вами");
+            sender.sendMessage(ChatColor.RED + recipient.getName() + " игнорируется вами");
             return;
         }
 
         if (recipientSocial.isIgnoring(sender)) {
-            sender.sendMessage(recipient.getName() + " игнорирует вас");
+            sender.sendMessage(ChatColor.RED + recipient.getName() + " игнорирует вас");
             return;
         }
 
         String formatted = format(MESSAGE_TEMPLATE, sender.getName(), recipient.getName(), message);
 
         if (recipientSocial.isAfk()) {
-            sender.sendMessage(recipient.getName() + " находится AFK");
-            recipientSocial.getAfkMessages().add(formatted);
+            if (recipientSocial.getAfkMessages().size() < 30) {
+                sender.sendMessage(formatted);
+                sender.sendMessage(ChatColor.RED + "Игрок " + recipient.getName() + " отошёл. Ваше сообщение будет доставлено позже");
+                recipientSocial.getAfkMessages().add(formatted);
+            } else {
+                sender.sendMessage(ChatColor.RED + "Игрок " + recipient.getName() + " отошёл");
+            }
         } else {
             sender.sendMessage(formatted);
             recipient.sendMessage(formatted);

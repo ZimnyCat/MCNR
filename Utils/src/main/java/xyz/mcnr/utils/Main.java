@@ -33,10 +33,10 @@ public class Main extends JavaPlugin implements Listener {
             new Whisper(),
             new Reply(),
             new Last(),
+            new AFK(),
             new IgnoreList(),
             new Joins(),
-            new Restart(),
-            new AFK()
+            new Restart()
     );
 
     // регистрация ивентов, запуск задач авторестарта и обновления таба
