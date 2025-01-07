@@ -39,11 +39,12 @@ public class AFK extends CommandBase {
 
     public static void exitAFK(CommandSender target, SocialData social) {
         List<String> msgs = social.getAfkMessages();
-        target.sendMessage("Вы вернулись\nНовые сообщения:");
-        for (String msg : msgs) {
-            target.sendMessage(msg);
+        target.sendMessage("Вы вернулись");
+        if (!msgs.isEmpty()) {
+            target.sendMessage("Новые сообщения:");
+            msgs.forEach(target::sendMessage);
+            msgs.clear();
         }
-        msgs.clear();
         social.setAfk(false);
     }
 }
