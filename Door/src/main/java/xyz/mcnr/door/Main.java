@@ -115,5 +115,6 @@ public class Main extends JavaPlugin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         kickList.put(event.getPlayer(), System.currentTimeMillis());
+        event.setJoinMessage("");
     }
 }
