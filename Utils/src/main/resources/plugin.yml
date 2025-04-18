@@ -1,5 +1,5 @@
 name: MCNR-Utils
-version: '7'
+version: '8'
 main: xyz.mcnr.utils.Main
 api-version: '1.21'
 commands:
@@ -24,4 +24,6 @@ commands:
     usage: '/<command>'
     aliases: [il]
   afk:
+    usage: '/<command>'
+  report:
     usage: '/<command>'

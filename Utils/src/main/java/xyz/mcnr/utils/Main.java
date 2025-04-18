@@ -13,10 +13,12 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.mcnr.utils.commands.*;
 import xyz.mcnr.utils.commands.social.*;
+import xyz.mcnr.utils.handlers.ReportersHandler;
 import xyz.mcnr.utils.handlers.SocialHandler;
 import xyz.mcnr.utils.misc.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class Main extends JavaPlugin implements Listener {
@@ -26,6 +28,7 @@ public class Main extends JavaPlugin implements Listener {
     public static final RestartTask restart = new RestartTask();
     public static final TabTask tab = new TabTask();
     public static final SocialHandler social = new SocialHandler();
+    public static final ReportersHandler reporters = new ReportersHandler();
     private static File pluginFolder;
 
     List<CommandBase> commands = List.of(
@@ -35,6 +38,7 @@ public class Main extends JavaPlugin implements Listener {
             new Last(),
             new AFK(),
             new IgnoreList(),
+            new Report(),
             new Joins(),
             new Restart()
     );
@@ -50,6 +54,19 @@ public class Main extends JavaPlugin implements Listener {
         restart.setStartTime(System.currentTimeMillis());
         restart.runTaskTimer(this, 20, 20);
         tab.runTaskTimer(this, 20, 20);
+
+        try {
+            reporters.load();
+        } catch (IOException e) {
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        try {
+            reporters.save();
+        } catch (IOException e) {
+        }
     }
 
     // обработка команд плагина
