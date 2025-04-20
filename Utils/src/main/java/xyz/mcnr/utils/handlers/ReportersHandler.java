@@ -36,7 +36,7 @@ public class ReportersHandler {
 
     public boolean check(String name) {
         for (Map.Entry<String, Long> entry : reporters.entrySet()) {
-            if (entry.getKey() == name && (System.currentTimeMillis() - entry.getValue()) < 86400000) return false;
+            if (entry.getKey().equals(name) && (System.currentTimeMillis() - entry.getValue()) < 86400000) return false;
         }
         return true;
     }

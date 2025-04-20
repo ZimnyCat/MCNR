@@ -20,7 +20,7 @@ public class Report extends CommandBase {
 
     @Override
     public String usage() {
-        return "/report <сообщение>";
+        return "/report <баг-репорт>";
     }
 
     @Override
@@ -32,6 +32,11 @@ public class Report extends CommandBase {
 
     @Override
     public void run(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length == 0) {
+            sender.sendMessage(ChatColor.RED + usage());
+            return;
+        }
+
         if (!Main.reporters.check(sender.getName())) {
             sender.sendMessage(ChatColor.RED + "Отправлять репорты можно раз в сутки");
             return;
