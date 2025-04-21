@@ -24,7 +24,7 @@ public class ToggleAnon extends CommandBase {
 
     @Override
     public String description() {
-        return "Включить/выключить анонимный чат";
+        return "Включить/выключить анонимные сообщения";
     }
 
     @Override
