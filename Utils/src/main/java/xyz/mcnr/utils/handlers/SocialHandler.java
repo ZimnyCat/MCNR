@@ -64,6 +64,10 @@ public class SocialHandler implements Listener {
         return socials.get(name);
     }
 
+    public Map<String, SocialData> getSocials() {
+        return socials;
+    }
+
     public void send(CommandSender sender, CommandSender recipient, String message) {
         message = message.trim();
         if (message.isBlank()) {
