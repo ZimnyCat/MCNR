@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.mcnr.utils.Main;
-import xyz.mcnr.utils.handlers.SocialHandler;
 import xyz.mcnr.utils.misc.CommandBase;
 import xyz.mcnr.utils.misc.SocialData;
 
@@ -41,25 +40,19 @@ public class Anon extends CommandBase {
         }
         message = "<Anon> " + message;
 
-        ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
-        removeIgnoring(players, sender);
-
-        for (Player p : players) {
+        for (Player p : getOnlinePlayers()) {
             p.sendMessage(message);
         }
     }
 
-    private void removeIgnoring(ArrayList<Player> players, CommandSender sender) {
-        SocialHandler socials = Main.social;
+    private ArrayList<Player> getOnlinePlayers() {
+        ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
 
-        for (SocialData s : socials.getSocials().values()) {
-            for (String name : s.getIgnoreList()) {
-                if (name.equals(sender.getName())) {
-                    players.remove(s.getPlayer());
-                    break;
-                }
-            }
+        for (SocialData data : Main.social.getSocials().values()) {
+            if (data.isAnonChat()) continue;
+            players.remove(data.getPlayer());
         }
 
+        return players;
     }
 }

@@ -23,9 +23,14 @@ public class SocialHandler implements Listener {
 
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
+        String name = event.getPlayer().getName();
+
         SocialData data = new SocialData(event.getPlayer());
-        socials.put(event.getPlayer().getName(), data);
-        Path path = Main.getPluginFolder().toPath().resolve(event.getPlayer().getName() + ".txt");
+        socials.put(name, data);
+        Path main = Main.getPluginFolder().toPath();
+        Path anons = main.resolve("anon");
+
+        Path path = main.resolve(name + ".txt");
         if (path.toFile().exists()) {
             try {
                 for (String s : Files.readAllLines(path)) {
@@ -33,6 +38,13 @@ public class SocialHandler implements Listener {
                 }
             } catch (IOException e) {
             }
+        }
+
+        if (anons.toFile().exists()) {
+            Path p = anons.resolve(name + ".disabled");
+            data.setAnonChat(!p.toFile().exists());
+        } else {
+            anons.toFile().mkdir();
         }
     }
 
