@@ -31,3 +31,4 @@ commands:
     usage: '/<command> <message>'
   toggleanon:
     usage: '/<command>'
+    aliases: [ignoreanon]

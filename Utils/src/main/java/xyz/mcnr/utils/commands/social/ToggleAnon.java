@@ -55,14 +55,14 @@ public class ToggleAnon extends CommandBase {
     }
 
     private void disableAnonChat(CommandSender sender, SocialData social) throws IOException {
-        sender.sendMessage("Анонимный чат выключен");
+        sender.sendMessage("Анонимные сообщения скрыты");
         social.setAnonChat(false);
 
         Files.createFile(path(sender));
     }
 
     private void enableAnonChat(CommandSender sender, SocialData social) throws IOException {
-        sender.sendMessage("Анонимный чат включен");
+        sender.sendMessage("Анонимные сообщения показываются");
         social.setAnonChat(true);
 
         Files.deleteIfExists(path(sender));
