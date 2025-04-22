@@ -6,10 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerCommandSendEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.mcnr.utils.commands.*;
 import xyz.mcnr.utils.commands.social.*;
@@ -27,8 +24,11 @@ public class Main extends JavaPlugin implements Listener {
 
     public static final RestartTask restart = new RestartTask();
     public static final TabTask tab = new TabTask();
+    public static final SpeedTask speed = new SpeedTask();
+
     public static final SocialHandler social = new SocialHandler();
     public static final ReportersHandler reporters = new ReportersHandler();
+
     private static File pluginFolder;
 
     List<CommandBase> commands = List.of(
@@ -56,6 +56,7 @@ public class Main extends JavaPlugin implements Listener {
         restart.setStartTime(System.currentTimeMillis());
         restart.runTaskTimer(this, 20, 20);
         tab.runTaskTimer(this, 20, 20);
+        speed.runTaskTimer(this, 5, 5);
 
         try {
             reporters.load();
@@ -132,7 +133,12 @@ public class Main extends JavaPlugin implements Listener {
         double z = event.getTo().getZ() - event.getFrom().getZ();
         double distance = Math.sqrt(x*x + z*z);
         
-        if (distance > 2.5) event.setCancelled(true);
+        if (distance > (speed.usedTrident.containsKey(event.getPlayer()) ? 3.2 : 2.5)) event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void trident(PlayerRiptideEvent event) {
+        speed.usedTrident.put(event.getPlayer(), System.currentTimeMillis());
     }
 
     public static File getPluginFolder() {
