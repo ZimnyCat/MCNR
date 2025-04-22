@@ -16,6 +16,9 @@ public class SocialData {
     private String lastSender;
     private boolean afk;
 
+    private long lastAnonChatUpdate;
+    private boolean anonChat = true;
+
     public SocialData(Player player) {
         this.player = player;
     }
@@ -56,6 +59,14 @@ public class SocialData {
         this.lastIgnoreUpdate = lastIgnoreUpdate;
     }
 
+    public long getLastAnonChatUpdate() {
+        return lastAnonChatUpdate;
+    }
+
+    public void setLastAnonChatUpdate(long lastAnonChatUpdate) {
+        this.lastAnonChatUpdate = lastAnonChatUpdate;
+    }
+
     public boolean isAfk() {
         return afk;
     }
@@ -66,5 +77,13 @@ public class SocialData {
 
     public List<String> getAfkMessages() {
         return afkMessages;
+    }
+
+    public void setAnonChat(boolean anonChat) {
+        this.anonChat = anonChat;
+    }
+
+    public boolean isAnonChat() {
+        return anonChat;
     }
 }

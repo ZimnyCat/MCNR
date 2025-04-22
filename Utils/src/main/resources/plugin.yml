@@ -27,3 +27,7 @@ commands:
     usage: '/<command>'
   report:
     usage: '/<command>'
+  anon:
+    usage: '/<command> <message>'
+  toggleanon:
+    usage: '/<command>'

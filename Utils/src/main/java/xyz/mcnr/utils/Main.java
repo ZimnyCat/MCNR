@@ -40,7 +40,9 @@ public class Main extends JavaPlugin implements Listener {
             new IgnoreList(),
             new Report(),
             new Joins(),
-            new Restart()
+            new Restart(),
+            new Anon(),
+            new ToggleAnon()
     );
 
     // регистрация ивентов, запуск задач авторестарта и обновления таба
