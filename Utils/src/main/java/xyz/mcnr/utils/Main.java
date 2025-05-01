@@ -109,6 +109,9 @@ public class Main extends JavaPlugin implements Listener {
     @EventHandler
     public void cancelCommands(PlayerCommandSendEvent event) {
         event.getCommands().removeIf(c -> {
+            if (c.contains(":"))
+                return true;
+
             for (String s : BLACKLISTED_COMMANDS) {
                 if (c.toLowerCase().startsWith(s.substring(1)))
                     return true;
