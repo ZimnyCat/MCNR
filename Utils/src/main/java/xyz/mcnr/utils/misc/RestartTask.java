@@ -9,7 +9,7 @@ import java.util.List;
 
 public class RestartTask extends BukkitRunnable {
     public long startTime;
-    public long restartTime = 7200;
+    public long restartTime = 14400;
     List<WarnPair> warns = new LinkedList<>(List.of(
             new WarnPair(300L, "5 минут"),
             new WarnPair(60L, "1 минуту"),
@@ -23,6 +23,10 @@ public class RestartTask extends BukkitRunnable {
         } else if (!warns.isEmpty() && passed((restartTime - warns.getFirst().seconds) * 1000)) {
             Bukkit.getServer().broadcastMessage("MCNR перезапустится через " + ChatColor.RED + warns.getFirst().msg);
             warns.removeFirst();
+        }
+
+        if (restartTime == 14400 && !passed(7200000) && Bukkit.getOnlinePlayers().size() >= 15) {
+            restartTime = (System.currentTimeMillis() - startTime + 7200000) / 1000;
         }
     }
 
