@@ -93,7 +93,7 @@ public class Main extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
         if (!player.hasPlayedBefore()) {
             player.sendMessage(ChatColor.RED + "\nMinecraftNoRules");
-            player.sendMessage("Ванильное выживание на карте в 20000 на 20000 блоков без правил и вмешательства администрации");
+            player.sendMessage("Анархическое ванильное выживание на карте в 30000 на 30000 блоков");
             player.sendMessage("Команды сервера — " + ChatColor.RED + "/help");
         }
     }
