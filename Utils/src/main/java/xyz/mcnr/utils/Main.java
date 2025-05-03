@@ -8,8 +8,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityMountEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
@@ -164,7 +166,20 @@ public class Main extends JavaPlugin implements Listener {
             }
         }
 
-        if (distance > maxSpeed) event.setCancelled(true);
+        if (distance > maxSpeed) {
+            if (event.getPlayer().getVehicle() != null) {
+                speed.dismounted.put(event.getPlayer(), System.currentTimeMillis());
+                event.getPlayer().leaveVehicle();
+            }
+
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler private void onMount(EntityMountEvent event) {
+        if (event.getEntity() instanceof Player player && speed.dismounted.containsKey(player)) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
