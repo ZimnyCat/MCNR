@@ -12,6 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import xyz.mcnr.utils.commands.*;
 import xyz.mcnr.utils.commands.social.*;
 import xyz.mcnr.utils.handlers.CrashHandler;
@@ -153,7 +155,14 @@ public class Main extends JavaPlugin implements Listener {
 
         double maxSpeed = 2.5;
         if (speed.usedTrident.containsKey(event.getPlayer())) maxSpeed = 3.2;
-        if (event.getPlayer().getVehicle() instanceof AbstractHorse) maxSpeed = 0.9;
+        if (event.getPlayer().getVehicle() instanceof AbstractHorse horse) {
+            maxSpeed = 0.9;
+
+            PotionEffect speed = horse.getPotionEffect(PotionEffectType.SPEED);
+            if (speed != null) {
+                maxSpeed *= 1 + 0.2f * (speed.getAmplifier() + 1);
+            }
+        }
 
         if (distance > maxSpeed) event.setCancelled(true);
     }
