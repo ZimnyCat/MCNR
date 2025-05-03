@@ -6,6 +6,7 @@ import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -148,9 +149,13 @@ public class Main extends JavaPlugin implements Listener {
 
         double x = event.getTo().getX() - event.getFrom().getX();
         double z = event.getTo().getZ() - event.getFrom().getZ();
-        double distance = Math.sqrt(x*x + z*z);
-        
-        if (distance > (speed.usedTrident.containsKey(event.getPlayer()) ? 3.2 : 2.5)) event.setCancelled(true);
+        double distance = Math.hypot(x, z);
+
+        double maxSpeed = 2.5;
+        if (speed.usedTrident.containsKey(event.getPlayer())) maxSpeed = 3.2;
+        if (event.getPlayer().getVehicle() instanceof AbstractHorse) maxSpeed = 0.9;
+
+        if (distance > maxSpeed) event.setCancelled(true);
     }
 
     @EventHandler
