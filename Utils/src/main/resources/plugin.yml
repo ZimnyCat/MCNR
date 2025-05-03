@@ -2,6 +2,8 @@ name: MCNR-Utils
 version: '10'
 main: xyz.mcnr.utils.Main
 api-version: '1.21.4'
+depend:
+  - packetevents
 commands:
   help:
     usage: '/help'
