@@ -1,5 +1,8 @@
 package xyz.mcnr.utils;
 
+import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.event.PacketListenerPriority;
+import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -10,6 +13,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.mcnr.utils.commands.*;
 import xyz.mcnr.utils.commands.social.*;
+import xyz.mcnr.utils.handlers.CrashHandler;
 import xyz.mcnr.utils.handlers.ReportersHandler;
 import xyz.mcnr.utils.handlers.SocialHandler;
 import xyz.mcnr.utils.misc.*;
@@ -28,6 +32,7 @@ public class Main extends JavaPlugin implements Listener {
 
     public static final SocialHandler social = new SocialHandler();
     public static final ReportersHandler reporters = new ReportersHandler();
+    public static final CrashHandler antiCrash = new CrashHandler();
 
     private static File pluginFolder;
 
@@ -44,6 +49,12 @@ public class Main extends JavaPlugin implements Listener {
             new Anon(),
             new ToggleAnon()
     );
+
+    @Override
+    public void onLoad() {
+        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+        PacketEvents.getAPI().getSettings().kickOnPacketException(true); // анти хуесос система
+    }
 
     // регистрация ивентов, запуск задач авторестарта и обновления таба
     @Override
@@ -62,6 +73,9 @@ public class Main extends JavaPlugin implements Listener {
             reporters.load();
         } catch (IOException e) {
         }
+
+        PacketEvents.getAPI().getEventManager().registerListener(new CrashHandler(), PacketListenerPriority.LOWEST);
+        PacketEvents.getAPI().init();
     }
 
     @Override
