@@ -1,15 +1,24 @@
 package xyz.mcnr.utils;
 
+import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.event.PacketListenerPriority;
+import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityMountEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import xyz.mcnr.utils.commands.*;
 import xyz.mcnr.utils.commands.social.*;
+import xyz.mcnr.utils.handlers.CrashHandler;
 import xyz.mcnr.utils.handlers.ReportersHandler;
 import xyz.mcnr.utils.handlers.SocialHandler;
 import xyz.mcnr.utils.misc.*;
@@ -28,6 +37,7 @@ public class Main extends JavaPlugin implements Listener {
 
     public static final SocialHandler social = new SocialHandler();
     public static final ReportersHandler reporters = new ReportersHandler();
+    public static final CrashHandler antiCrash = new CrashHandler();
 
     private static File pluginFolder;
 
@@ -44,6 +54,12 @@ public class Main extends JavaPlugin implements Listener {
             new Anon(),
             new ToggleAnon()
     );
+
+    @Override
+    public void onLoad() {
+        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+        PacketEvents.getAPI().getSettings().kickOnPacketException(true); // анти хуесос система
+    }
 
     // регистрация ивентов, запуск задач авторестарта и обновления таба
     @Override
@@ -62,6 +78,9 @@ public class Main extends JavaPlugin implements Listener {
             reporters.load();
         } catch (IOException e) {
         }
+
+        PacketEvents.getAPI().getEventManager().registerListener(new CrashHandler(), PacketListenerPriority.LOWEST);
+        PacketEvents.getAPI().init();
     }
 
     @Override
@@ -134,9 +153,33 @@ public class Main extends JavaPlugin implements Listener {
 
         double x = event.getTo().getX() - event.getFrom().getX();
         double z = event.getTo().getZ() - event.getFrom().getZ();
-        double distance = Math.sqrt(x*x + z*z);
-        
-        if (distance > (speed.usedTrident.containsKey(event.getPlayer()) ? 3.2 : 2.5)) event.setCancelled(true);
+        double distance = Math.hypot(x, z);
+
+        double maxSpeed = 2.5;
+        if (speed.usedTrident.containsKey(event.getPlayer())) maxSpeed = 3.2;
+        if (event.getPlayer().getVehicle() instanceof AbstractHorse horse) {
+            maxSpeed = 0.9;
+
+            PotionEffect speed = horse.getPotionEffect(PotionEffectType.SPEED);
+            if (speed != null) {
+                maxSpeed *= 1 + 0.2f * (speed.getAmplifier() + 1);
+            }
+        }
+
+        if (distance > maxSpeed) {
+            if (event.getPlayer().getVehicle() != null) {
+                speed.dismounted.put(event.getPlayer(), System.currentTimeMillis());
+                event.getPlayer().leaveVehicle();
+            }
+
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler private void onMount(EntityMountEvent event) {
+        if (event.getEntity() instanceof Player player && speed.dismounted.containsKey(player)) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler

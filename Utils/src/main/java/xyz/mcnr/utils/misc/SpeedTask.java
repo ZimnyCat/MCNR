@@ -8,11 +8,17 @@ import java.util.Map;
 
 public class SpeedTask extends BukkitRunnable {
     public Map<Player, Long> usedTrident = new HashMap<>();
+    public Map<Player, Long> dismounted = new HashMap<>();
 
     @Override
     public void run() {
-        for (Map.Entry<Player, Long> player : usedTrident.entrySet()) {
-            if ((System.currentTimeMillis() - player.getValue()) > 1000) usedTrident.remove(player.getKey());
+        update(usedTrident, 1000);
+        update(dismounted, 250);
+    }
+
+    private void update(Map<Player, Long> map, long timeout) {
+        for (Map.Entry<Player, Long> player : map.entrySet()) {
+            if ((System.currentTimeMillis() - player.getValue()) > timeout) map.remove(player.getKey());
         }
     }
 }
