@@ -8,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityMountEvent;
@@ -115,6 +114,8 @@ public class Main extends JavaPlugin implements Listener {
             player.sendMessage("Анархическое ванильное выживание на карте в 30000 на 30000 блоков");
             player.sendMessage("Команды сервера — " + ChatColor.RED + "/help");
         }
+
+        restart.checkPlayerCount();
     }
 
     // LuckPerms? а может лучше...

@@ -15,6 +15,10 @@ public class RestartTask extends BukkitRunnable {
             new WarnPair(60L, "1 минуту"),
             new WarnPair(10L, "10 секунд")
     ));
+    List<RestartTimePair> restartTimes = new LinkedList<>(List.of(
+            new RestartTimePair(15, 7200000L),
+            new RestartTimePair(25, 3600000L)
+    ));
 
     @Override
     public void run() {
@@ -23,10 +27,6 @@ public class RestartTask extends BukkitRunnable {
         } else if (!warns.isEmpty() && passed((restartTime - warns.getFirst().seconds) * 1000)) {
             Bukkit.getServer().broadcastMessage("MCNR перезапустится через " + ChatColor.RED + warns.getFirst().msg);
             warns.removeFirst();
-        }
-
-        if (restartTime == 14400 && !passed(7200000) && Bukkit.getOnlinePlayers().size() >= 15) {
-            restartTime = (System.currentTimeMillis() - startTime + 7200000) / 1000;
         }
     }
 
@@ -38,5 +38,15 @@ public class RestartTask extends BukkitRunnable {
         this.startTime = startTime;
     }
 
+    public void checkPlayerCount() {
+        RestartTimePair pair = restartTimes.getFirst();
+        if (Bukkit.getOnlinePlayers().size() >= pair.playerCount && (startTime + restartTime * 1000) - System.currentTimeMillis() > pair.diff) {
+                restartTime = (System.currentTimeMillis() - startTime + pair.diff) / 1000;
+                restartTimes.removeFirst();
+        }
+    }
+
     record WarnPair(Long seconds, String msg) {}
+
+    record RestartTimePair(int playerCount, Long diff) {}
 }

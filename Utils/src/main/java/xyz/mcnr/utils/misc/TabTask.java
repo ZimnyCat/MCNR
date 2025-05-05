@@ -12,7 +12,7 @@ public class TabTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        footer = "\n" + Bukkit.getOnlinePlayers().size() + "/30\nTPS: " + String.format(Locale.US, "%.2f", getTPS()) + "   ping: ";
+        footer = "\n" + Bukkit.getOnlinePlayers().size() + "/25\nTPS: " + String.format(Locale.US, "%.2f", getTPS()) + "   ping: ";
         last = System.currentTimeMillis();
 
         Bukkit.getOnlinePlayers().forEach(this::update);

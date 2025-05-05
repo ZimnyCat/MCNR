@@ -97,17 +97,6 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void enforceWhitelist(PlayerCommandSendEvent event) {
-        event.getCommands().removeIf(c -> {
-            for (String s : WHITELIST) {
-                if (c.toLowerCase().startsWith(s.substring(1)))
-                    return false;
-            }
-            return true;
-        });
-    }
-
-    @EventHandler
     public void disableChat(AsyncPlayerChatEvent event) {
         event.setCancelled(true);
     }

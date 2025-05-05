@@ -1,5 +1,5 @@
 name: MCNR-Utils
-version: '10'
+version: '12'
 main: xyz.mcnr.utils.Main
 api-version: '1.21.4'
 depend:

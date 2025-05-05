@@ -1,7 +1,7 @@
 name: MCNR-Door
-version: '4'
+version: '5'
 main: xyz.mcnr.door.Main
-api-version: '1.21'
+api-version: '1.12.2'
 commands:
   join:
     usage: '/join'
