@@ -1,5 +1,5 @@
 name: MCNR-Utils
-version: '12'
+version: '13'
 main: xyz.mcnr.utils.Main
 api-version: '1.21.4'
 depend:
@@ -7,10 +7,12 @@ depend:
 commands:
   help:
     usage: '/help'
-  rst:
-    usage: '/rst'
-  joins:
-    usage: '/joins <player>'
+  restart:
+    usage: '/restart'
+    aliases: [rst]
+  joindate:
+    usage: '/joindate <player>'
+    aliases: [jd]
   w:
     usage: '/<command> <player> <message>'
     aliases: [msg, pm, tell]

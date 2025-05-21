@@ -48,7 +48,7 @@ public class Main extends JavaPlugin implements Listener {
             new AFK(),
             new IgnoreList(),
             new Report(),
-            new Joins(),
+            new JoinDate(),
             new Restart(),
             new Anon(),
             new ToggleAnon()

@@ -10,15 +10,15 @@ import xyz.mcnr.utils.misc.CommandBase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Joins extends CommandBase {
+public class JoinDate extends CommandBase {
     @Override
     public String name() {
-        return "joins";
+        return "joindate";
     }
 
     @Override
     public String usage() {
-        return "/joins <игрок>";
+        return "/joindate <игрок>";
     }
 
     @Override
