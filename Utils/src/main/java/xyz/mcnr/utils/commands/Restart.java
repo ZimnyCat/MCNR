@@ -8,12 +8,12 @@ import xyz.mcnr.utils.Main;
 public class Restart extends CommandBase {
     @Override
     public String name() {
-        return "restart";
+        return "rst";
     }
 
     @Override
     public String usage() {
-        return "/restart";
+        return "/rst";
     }
 
     @Override

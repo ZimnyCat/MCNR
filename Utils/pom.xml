@@ -6,7 +6,7 @@
 
     <groupId>xyz.mcnr</groupId>
     <artifactId>MCNR-Utils</artifactId>
-    <version>13</version>
+    <version>14</version>
     <packaging>jar</packaging>
 
     <name>MCNR-Utils</name>
@@ -59,14 +59,6 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
-        <repository>
-            <id>codemc-releases</id>
-            <url>https://repo.codemc.io/repository/maven-releases/</url>
-        </repository>
-        <repository>
-            <id>codemc-snapshots</id>
-            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -74,13 +66,6 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.21-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.retrooper</groupId>
-            <artifactId>packetevents-spigot</artifactId>
-            <version>2.7.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

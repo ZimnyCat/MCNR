@@ -1,15 +1,12 @@
 name: MCNR-Utils
-version: '13'
+version: '14'
 main: xyz.mcnr.utils.Main
 api-version: '1.21.4'
-depend:
-  - packetevents
 commands:
   help:
     usage: '/help'
-  restart:
-    usage: '/restart'
-    aliases: [rst]
+  rst:
+    usage: '/rst'
   joindate:
     usage: '/joindate <player>'
     aliases: [jd]
