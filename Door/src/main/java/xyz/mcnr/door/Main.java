@@ -11,16 +11,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import xyz.mcnr.door.api.AutoConnectTask;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class Main extends JavaPlugin implements Listener {
-
     private static final List<String> WHITELIST = List.of("/l", "/reg", "/join", "/change");
-    HashMap<Player, Long> joinSenders = new HashMap<>();
-    HashMap<Player, Long> kickList = new HashMap<>();
-    long startTime;
+
+    private final AutoConnectTask task = new AutoConnectTask(this);
+    private final HashMap<Player, Long> kickList = new HashMap<>();
+    public final HashMap<Player, Long> joinSenders = new HashMap<>();
+
+    private long startTime;
 
     @Override
     public void onEnable() {
@@ -49,6 +52,7 @@ public class Main extends JavaPlugin implements Listener {
             }
         };
         kick.runTaskTimer(this, 20, 20);
+        task.runTaskTimer(this, 20, 20);
     }
 
     @Override
