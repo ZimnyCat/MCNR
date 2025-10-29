@@ -49,7 +49,7 @@ public class Main extends JavaPlugin implements Listener {
             new ToggleAnon()
     );
 
-    // регистрация ивентов, запуск задач авторестарта и обновления таба
+    // регистрация ивентов, запуск задач авторестарта, обновления таба, удаление старых логов
     @Override
     public void onEnable() {
         pluginFolder = getDataFolder();
@@ -65,6 +65,15 @@ public class Main extends JavaPlugin implements Listener {
         try {
             reporters.load();
         } catch (IOException e) {
+        }
+
+        File logs = new File("logs");
+        File[] logFiles = logs.listFiles();
+
+        for (File file : logFiles) {
+            if (file.lastModified() < (System.currentTimeMillis() - 864000000)) {
+                file.delete();
+            }
         }
     }
 

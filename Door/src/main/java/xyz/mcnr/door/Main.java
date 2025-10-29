@@ -12,6 +12,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,6 +50,16 @@ public class Main extends JavaPlugin implements Listener {
             }
         };
         kick.runTaskTimer(this, 20, 20);
+
+        // удаление старых логов
+        File logs = new File("logs");
+        File[] logFiles = logs.listFiles();
+
+        for (File file : logFiles) {
+            if (file.lastModified() < (System.currentTimeMillis() - 864000000)) {
+                file.delete();
+            }
+        }
     }
 
     @Override

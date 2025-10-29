@@ -1,5 +1,5 @@
 name: MCNR-Door
-version: '5'
+version: '6'
 main: xyz.mcnr.door.Main
 api-version: '1.12.2'
 commands:
