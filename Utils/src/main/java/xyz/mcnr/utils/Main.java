@@ -46,7 +46,8 @@ public class Main extends JavaPlugin implements Listener {
             new JoinDate(),
             new Restart(),
             new Anon(),
-            new ToggleAnon()
+            new ToggleAnon(),
+            new ToggleJD()
     );
 
     // регистрация ивентов, запуск задач авторестарта, обновления таба, удаление старых логов

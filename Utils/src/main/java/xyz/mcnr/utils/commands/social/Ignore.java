@@ -47,13 +47,11 @@ public class Ignore extends CommandBase {
         }
 
         SocialData social = Main.social.getSocial(sender.getName());
-        if (System.currentTimeMillis() - social.getLastIgnoreUpdate() < 3000) {
-            sender.sendMessage(ChatColor.RED + "Слишком быстро!");
+        if (social.isFileUpdateNotOK()) {
             return;
         }
 
         List<String> list = social.getIgnoreList();
-        social.setLastIgnoreUpdate(System.currentTimeMillis());
         if (list.contains(name)) {
             list.remove(name);
             sender.sendMessage("Сообщения от %s показываются".formatted(args[0]));

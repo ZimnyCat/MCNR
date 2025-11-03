@@ -29,6 +29,7 @@ public class SocialHandler implements Listener {
         socials.put(name, data);
         Path main = Main.getPluginFolder().toPath();
         Path anons = main.resolve("anon");
+        Path jd = main.resolve("jd");
 
         Path path = main.resolve(name + ".txt");
         if (path.toFile().exists()) {
@@ -46,6 +47,11 @@ public class SocialHandler implements Listener {
         } else {
             anons.toFile().mkdir();
         }
+
+        if (jd.toFile().exists()) {
+            Path p = jd.resolve(name + ".disabled");
+            data.setHideJoinDates(p.toFile().exists());
+        } else jd.toFile().mkdir();
     }
 
 

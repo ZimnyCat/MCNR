@@ -33,3 +33,6 @@ commands:
   toggleanon:
     usage: '/<command>'
     aliases: [ignoreanon]
+  togglejd:
+    usage: '/<command>'
+    aliases: [hidejd]

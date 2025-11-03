@@ -5,7 +5,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import xyz.mcnr.utils.Main;
 import xyz.mcnr.utils.misc.CommandBase;
+import xyz.mcnr.utils.misc.SocialData;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +40,12 @@ public class JoinDate extends CommandBase {
         OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
         if (player.getFirstPlayed() == 0) {
             sender.sendMessage(ChatColor.RED + "Игрок не найден");
+            return;
+        }
+
+        SocialData social = Main.social.getSocial(sender.getName());
+        if (social.isHidingJoinDates()) {
+            sender.sendMessage("\nИнформация о заходах " + player.getName() + " скрыта командой /togglejd");
             return;
         }
 

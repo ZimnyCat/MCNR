@@ -11,20 +11,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class ToggleAnon extends CommandBase {
+public class ToggleJD extends CommandBase {
     @Override
     public String name() {
-        return "toggleanon";
+        return "togglejd";
     }
 
     @Override
     public String usage() {
-        return "/toggleanon";
+        return "/togglejd";
     }
 
     @Override
     public String description() {
-        return "Включить/выключить анонимные сообщения";
+        return "Скрыть/раскрыть информацию о ваших заходах в /joindate";
     }
 
     @Override
@@ -40,32 +40,21 @@ public class ToggleAnon extends CommandBase {
         }
 
         try {
-            if (social.isAnonChat()) {
-                disableAnonChat(sender, social);
+            if (social.isHidingJoinDates()) {
+                Files.deleteIfExists(path(sender));
+                sender.sendMessage("Информация о ваших заходах показывается");
             } else {
-                enableAnonChat(sender, social);
+                Files.createFile(path(sender));
+                sender.sendMessage("Информация о ваших заходах скрыта");
             }
+            social.toggleHideJoinDates();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void disableAnonChat(CommandSender sender, SocialData social) throws IOException {
-        sender.sendMessage("Анонимные сообщения скрыты");
-        social.setAnonChat(false);
-
-        Files.createFile(path(sender));
-    }
-
-    private void enableAnonChat(CommandSender sender, SocialData social) throws IOException {
-        sender.sendMessage("Анонимные сообщения показываются");
-        social.setAnonChat(true);
-
-        Files.deleteIfExists(path(sender));
-    }
-
     private Path path(CommandSender sender) {
-        Path anons = Main.getPluginFolder().toPath().resolve("anon");
-        return anons.resolve(sender.getName() + ".disabled");
+        Path jd = Main.getPluginFolder().toPath().resolve("jd");
+        return jd.resolve(sender.getName() + ".disabled");
     }
 }

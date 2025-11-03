@@ -1,5 +1,6 @@
 package xyz.mcnr.utils.misc;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
@@ -11,13 +12,15 @@ public class SocialData {
     private final List<String> ignoreList = new ArrayList<>();
     private final Player player;
 
-    private long lastIgnoreUpdate;
     private String lastRecipient;
     private String lastSender;
     private boolean afk;
 
-    private long lastAnonChatUpdate;
     private boolean anonChat = true;
+
+    private boolean hideJoinDates = false;
+
+    private long lastFileUpdate = 0;
 
     public SocialData(Player player) {
         this.player = player;
@@ -51,20 +54,14 @@ public class SocialData {
         return ignoreList.contains(player.getName().toLowerCase(Locale.ROOT));
     }
 
-    public long getLastIgnoreUpdate() {
-        return lastIgnoreUpdate;
-    }
-
-    public void setLastIgnoreUpdate(long lastIgnoreUpdate) {
-        this.lastIgnoreUpdate = lastIgnoreUpdate;
-    }
-
-    public long getLastAnonChatUpdate() {
-        return lastAnonChatUpdate;
-    }
-
-    public void setLastAnonChatUpdate(long lastAnonChatUpdate) {
-        this.lastAnonChatUpdate = lastAnonChatUpdate;
+    public boolean isFileUpdateNotOK() {
+        if (System.currentTimeMillis() - lastFileUpdate < 3000) {
+            player.sendMessage(ChatColor.RED + "Слишком быстро!");
+            lastFileUpdate = System.currentTimeMillis();
+            return true;
+        }
+        lastFileUpdate = System.currentTimeMillis();
+        return false;
     }
 
     public boolean isAfk() {
@@ -85,5 +82,17 @@ public class SocialData {
 
     public boolean isAnonChat() {
         return anonChat;
+    }
+
+    public void toggleHideJoinDates() {
+        hideJoinDates = !hideJoinDates;
+    }
+
+    public void setHideJoinDates(boolean hideJoinDates) {
+        this.hideJoinDates = hideJoinDates;
+    }
+
+    public boolean isHidingJoinDates() {
+        return hideJoinDates;
     }
 }
