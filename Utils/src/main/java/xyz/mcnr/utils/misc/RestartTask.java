@@ -9,15 +9,17 @@ import java.util.List;
 
 public class RestartTask extends BukkitRunnable {
     public long startTime;
-    public long restartTime = 14400;
+    public long restartTime = 21600; // 6h
     List<WarnPair> warns = new LinkedList<>(List.of(
             new WarnPair(300L, "5 минут"),
             new WarnPair(60L, "1 минуту"),
             new WarnPair(10L, "10 секунд")
     ));
     List<RestartTimePair> restartTimes = new LinkedList<>(List.of(
-            new RestartTimePair(15, 7200000L),
-            new RestartTimePair(25, 3600000L)
+            new RestartTimePair(10, 14400000L), // 4h
+            new RestartTimePair(15, 10800000L), // 3h
+            new RestartTimePair(20, 7200000L),  // 2h
+            new RestartTimePair(25, 3600000L)   // 1h
     ));
 
     @Override
