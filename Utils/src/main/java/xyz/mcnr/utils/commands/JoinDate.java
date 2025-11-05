@@ -43,7 +43,7 @@ public class JoinDate extends CommandBase {
             return;
         }
 
-        SocialData social = Main.social.getSocial(sender.getName());
+        SocialData social = Main.social.getSocial(player.getName());
         if (social.isHidingJoinDates()) {
             sender.sendMessage("\nИнформация о заходах " + player.getName() + " скрыта командой /togglejd");
             return;
