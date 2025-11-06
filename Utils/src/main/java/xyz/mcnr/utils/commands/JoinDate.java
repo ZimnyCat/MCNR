@@ -1,6 +1,5 @@
 package xyz.mcnr.utils.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -37,13 +36,15 @@ public class JoinDate extends CommandBase {
             return;
         }
 
-        OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
-        if (player.getFirstPlayed() == 0) {
+        SocialData social = Main.social.getSocial(args[0]);
+
+        if (social == null) {
             sender.sendMessage(ChatColor.RED + "Игрок не найден");
             return;
         }
 
-        SocialData social = Main.social.getSocial(player.getName());
+        OfflinePlayer player = social.getPlayer();
+
         if (social.isHidingJoinDates()) {
             sender.sendMessage("\nИнформация о заходах " + player.getName() + " скрыта командой /togglejd");
             return;

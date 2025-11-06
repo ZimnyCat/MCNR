@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import xyz.mcnr.utils.Main;
 import xyz.mcnr.utils.misc.CommandBase;
 import xyz.mcnr.utils.misc.SocialData;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Locale;
 
 public class Ignore extends CommandBase {
 
@@ -39,24 +37,23 @@ public class Ignore extends CommandBase {
             return;
         }
 
-        String name = args[0].toLowerCase(Locale.ROOT);
-        Player player = Bukkit.getPlayer(name);
-        if (player == null) {
-            sender.sendMessage(ChatColor.RED + "Игрок не в сети");
+        if (Bukkit.getOfflinePlayer(args[0]).getFirstPlayed() == 0) {
+            sender.sendMessage(ChatColor.RED + "Игрок не найден");
             return;
         }
 
         SocialData social = Main.social.getSocial(sender.getName());
+
         if (social.isFileUpdateNotOK()) {
             return;
         }
 
         List<String> list = social.getIgnoreList();
-        if (list.contains(name)) {
-            list.remove(name);
+        if (list.contains(args[0])) {
+            list.remove(args[0]);
             sender.sendMessage("Сообщения от %s показываются".formatted(args[0]));
         } else {
-            list.add(name);
+            list.add(args[0]);
             sender.sendMessage("Сообщения от %s скрыты".formatted(args[0]));
         }
 

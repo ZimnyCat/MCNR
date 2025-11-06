@@ -1,12 +1,13 @@
 package xyz.mcnr.utils.handlers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.mcnr.utils.Main;
 import xyz.mcnr.utils.commands.social.AFK;
 import xyz.mcnr.utils.misc.SocialData;
@@ -23,10 +24,50 @@ public class SocialHandler implements Listener {
 
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
-        String name = event.getPlayer().getName();
+        if (!socials.containsKey(event.getPlayer().getName())) {
+            addSocial(event.getPlayer());
+        }
+    }
 
-        SocialData data = new SocialData(event.getPlayer());
-        socials.put(name, data);
+    @EventHandler
+    private void onPlayerSendMessage(AsyncPlayerChatEvent event) {
+        SocialData social = getSocial(event.getPlayer().getName());
+        if (social.isAfk()) {
+            AFK.exitAFK(event.getPlayer(), social);
+        }
+
+        for (SocialData data : socials.values()) {
+            if (data.getOnlinePlayer() == null) continue;
+            if (data.getIgnoreList().contains(event.getPlayer().getName())) {
+                event.getRecipients().remove(data.getOnlinePlayer());
+            }
+        }
+
+        if (event.getMessage().startsWith(">")) {
+            event.setMessage(ChatColor.GREEN + event.getMessage());
+        }
+    }
+
+    public SocialData getSocial(String name) {
+        if (socials.containsKey(name)) {
+            return socials.get(name);
+        }
+
+        OfflinePlayer player = Bukkit.getOfflinePlayer(name);
+        if (player.getFirstPlayed() != 0) {
+            addSocial(player);
+        }
+        return socials.get(name);
+    }
+
+    public Map<String, SocialData> getSocials() {
+        return socials;
+    }
+
+    private void addSocial(OfflinePlayer player) {
+        String name = player.getName();
+        SocialData data = new SocialData(player);
+
         Path main = Main.getPluginFolder().toPath();
         Path anons = main.resolve("anon");
         Path jd = main.resolve("jd");
@@ -44,46 +85,13 @@ public class SocialHandler implements Listener {
         if (anons.toFile().exists()) {
             Path p = anons.resolve(name + ".disabled");
             data.setAnonChat(!p.toFile().exists());
-        } else {
-            anons.toFile().mkdir();
-        }
+        } else anons.toFile().mkdir();
 
         if (jd.toFile().exists()) {
             Path p = jd.resolve(name + ".disabled");
             data.setHideJoinDates(p.toFile().exists());
         } else jd.toFile().mkdir();
-    }
-
-
-    @EventHandler
-    private void onQuit(PlayerQuitEvent event) {
-        socials.remove(event.getPlayer().getName());
-    }
-
-    @EventHandler
-    private void onPlayerSendMessage(AsyncPlayerChatEvent event) {
-        SocialData social = getSocial(event.getPlayer().getName());
-        if (social.isAfk()) {
-            AFK.exitAFK(event.getPlayer(), social);
-        }
-
-        for (SocialData data : socials.values()) {
-            if (data.getIgnoreList().contains(event.getPlayer().getName().toLowerCase())) {
-                event.getRecipients().remove(data.getPlayer());
-            }
-        }
-
-        if (event.getMessage().startsWith(">")) {
-            event.setMessage(ChatColor.GREEN + event.getMessage());
-        }
-    }
-
-    public SocialData getSocial(String name) {
-        return socials.get(name);
-    }
-
-    public Map<String, SocialData> getSocials() {
-        return socials;
+        socials.put(name, data);
     }
 
     public void send(CommandSender sender, CommandSender recipient, String message) {

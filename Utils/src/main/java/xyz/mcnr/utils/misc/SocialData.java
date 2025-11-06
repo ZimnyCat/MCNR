@@ -1,6 +1,8 @@
 package xyz.mcnr.utils.misc;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.Locale;
 public class SocialData {
     private final List<String> afkMessages = new ArrayList<>();
     private final List<String> ignoreList = new ArrayList<>();
-    private final Player player;
+    private final OfflinePlayer player;
 
     private String lastRecipient;
     private String lastSender;
@@ -22,12 +24,16 @@ public class SocialData {
 
     private long lastFileUpdate = 0;
 
-    public SocialData(Player player) {
+    public SocialData(OfflinePlayer player) {
         this.player = player;
     }
 
-    public Player getPlayer() {
+    public OfflinePlayer getPlayer() {
         return player;
+    }
+
+    public Player getOnlinePlayer() {
+        return Bukkit.getPlayer(player.getName());
     }
 
     public String getLastRecipient() {
@@ -56,7 +62,7 @@ public class SocialData {
 
     public boolean isFileUpdateNotOK() {
         if (System.currentTimeMillis() - lastFileUpdate < 3000) {
-            player.sendMessage(ChatColor.RED + "Слишком быстро!");
+            getOnlinePlayer().sendMessage(ChatColor.RED + "Слишком быстро!");
             lastFileUpdate = System.currentTimeMillis();
             return true;
         }

@@ -1,5 +1,5 @@
 name: MCNR-Utils
-version: '15'
+version: '16'
 main: xyz.mcnr.utils.Main
 api-version: '1.21.4'
 commands:

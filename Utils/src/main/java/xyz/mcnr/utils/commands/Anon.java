@@ -37,8 +37,9 @@ public class Anon extends CommandBase {
         message = "</anon> " + message;
 
         for (SocialData data : Main.social.getSocials().values()) {
+            if (data.getOnlinePlayer() == null) continue;
             if (data.isAnonChat() || data.getPlayer().getName().equals(sender.getName()))
-                data.getPlayer().sendMessage(message);
+                data.getOnlinePlayer().sendMessage(message);
         }
     }
 }
