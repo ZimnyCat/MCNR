@@ -12,15 +12,15 @@ import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Report extends CommandBase {
+public class BugReport extends CommandBase {
     @Override
     public String name() {
-        return "report";
+        return "bugreport";
     }
 
     @Override
     public String usage() {
-        return "/report <баг-репорт>";
+        return "/bugreport <баг-репорт>";
     }
 
     @Override

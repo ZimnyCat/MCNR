@@ -13,7 +13,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.mcnr.utils.commands.*;
-import xyz.mcnr.utils.commands.social.*;
 import xyz.mcnr.utils.handlers.ReportersHandler;
 import xyz.mcnr.utils.handlers.SocialHandler;
 import xyz.mcnr.utils.misc.*;
@@ -36,18 +35,19 @@ public class Main extends JavaPlugin implements Listener {
     private static File pluginFolder;
 
     List<CommandBase> commands = List.of(
-            new Ignore(),
-            new Whisper(),
-            new Reply(),
-            new Last(),
             new AFK(),
-            new IgnoreList(),
-            new Report(),
-            new JoinDate(),
-            new Restart(),
             new Anon(),
+            new BugReport(),
+            new Ignore(),
+            new IgnoreList(),
+            new JoinDate(),
+            new Last(),
+            new Read(),
+            new Reply(),
+            new Restart(),
             new ToggleAnon(),
-            new ToggleJD()
+            new ToggleJD(),
+            new Whisper()
     );
 
     // регистрация ивентов, запуск задач авторестарта, обновления таба, удаление старых логов

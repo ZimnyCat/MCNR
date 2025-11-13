@@ -1,4 +1,4 @@
-package xyz.mcnr.utils.commands.social;
+package xyz.mcnr.utils.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

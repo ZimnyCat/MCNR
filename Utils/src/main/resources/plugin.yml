@@ -1,5 +1,5 @@
 name: MCNR-Utils
-version: '16'
+version: '17'
 main: xyz.mcnr.utils.Main
 api-version: '1.21.4'
 commands:
@@ -26,7 +26,7 @@ commands:
     aliases: [il]
   afk:
     usage: '/<command>'
-  report:
+  bugreport:
     usage: '/<command>'
   anon:
     usage: '/<command> <message>'
@@ -36,3 +36,5 @@ commands:
   togglejd:
     usage: '/<command>'
     aliases: [hidejd]
+  read:
+    usage: '/<command>'

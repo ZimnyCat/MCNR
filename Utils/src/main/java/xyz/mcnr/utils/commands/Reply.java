@@ -1,10 +1,8 @@
-package xyz.mcnr.utils.commands.social;
+package xyz.mcnr.utils.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import xyz.mcnr.utils.Main;
 import xyz.mcnr.utils.misc.CommandBase;
 import xyz.mcnr.utils.misc.SocialData;
@@ -39,12 +37,6 @@ public class Reply extends CommandBase {
             return;
         }
 
-        Player player = Bukkit.getPlayer(last);
-        if (player == null) {
-            sender.sendMessage(ChatColor.RED + "Игрок не в сети");
-            return;
-        }
-
-        Main.social.send(sender, player, String.join(" ", args));
+        Main.social.send(sender, last, String.join(" ", args));
     }
 }

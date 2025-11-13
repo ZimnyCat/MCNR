@@ -3,20 +3,20 @@ package xyz.mcnr.utils.misc;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class SocialData {
     private final List<String> afkMessages = new ArrayList<>();
     private final List<String> ignoreList = new ArrayList<>();
+    private final List<String> messageBacklog = new ArrayList<>();
     private final OfflinePlayer player;
 
     private String lastRecipient;
     private String lastSender;
     private boolean afk;
+    private short offlineMsgLimit = 5;
 
     private boolean anonChat = true;
 
@@ -56,8 +56,12 @@ public class SocialData {
         return ignoreList;
     }
 
-    public boolean isIgnoring(CommandSender player) {
-        return ignoreList.contains(player.getName().toLowerCase(Locale.ROOT));
+    public List<String> getMessageBacklog() {
+        return messageBacklog;
+    }
+
+    public boolean isIgnoring(String name) {
+        return ignoreList.contains(name);
     }
 
     public boolean isFileUpdateNotOK() {
@@ -100,5 +104,10 @@ public class SocialData {
 
     public boolean isHidingJoinDates() {
         return hideJoinDates;
+    }
+
+    public short getOfflineMsgLimit() {
+        offlineMsgLimit--;
+        return offlineMsgLimit;
     }
 }

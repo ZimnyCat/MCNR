@@ -1,4 +1,4 @@
-package xyz.mcnr.utils.commands.social;
+package xyz.mcnr.utils.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

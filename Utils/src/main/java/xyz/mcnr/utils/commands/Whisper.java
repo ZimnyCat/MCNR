@@ -1,13 +1,10 @@
-package xyz.mcnr.utils.commands.social;
+package xyz.mcnr.utils.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import xyz.mcnr.utils.Main;
 import xyz.mcnr.utils.misc.CommandBase;
-import xyz.mcnr.utils.misc.SocialData;
 
 import java.util.Arrays;
 
@@ -34,15 +31,9 @@ public class Whisper extends CommandBase {
             return;
         }
 
-        Player player = Bukkit.getPlayer(args[0]);
-        if (player == null) {
-            sender.sendMessage(ChatColor.RED + "Игрок не в сети");
-            return;
-        }
-
         String message = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 
-        Main.social.send(sender, player, message);
+        Main.social.send(sender, args[0], message);
     }
 
 }
