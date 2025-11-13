@@ -29,8 +29,8 @@ public class SocialHandler implements Listener {
         SocialData social = getSocial(p.getName());
 
         if (!social.getMessageBacklog().isEmpty()) {
-            p.sendMessage("У вас " + ChatColor.RED + social.getMessageBacklog().size() + ChatColor.RED + " непрочитанных сообщений");
-            p.sendMessage("Прочитать — " + ChatColor.RED + "/read");
+            p.sendMessage("\nУ вас " + ChatColor.RED + social.getMessageBacklog().size() + ChatColor.WHITE + " непрочитанных сообщений");
+            p.sendMessage("Прочитать — " + ChatColor.RED + "/read\n");
         }
     }
 
