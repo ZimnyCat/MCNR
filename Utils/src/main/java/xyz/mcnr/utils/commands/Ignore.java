@@ -2,6 +2,7 @@ package xyz.mcnr.utils.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import xyz.mcnr.utils.Main;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Locale;
 
 public class Ignore extends CommandBase {
 
@@ -38,8 +40,16 @@ public class Ignore extends CommandBase {
         }
 
         if (Bukkit.getOfflinePlayer(args[0]).getFirstPlayed() == 0) {
-            sender.sendMessage(ChatColor.RED + "Игрок не найден");
-            return;
+            for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+                if (player.getName().equalsIgnoreCase(args[0])) {
+                    args[0] = player.getName();
+                    break;
+                }
+            }
+            if (Bukkit.getOfflinePlayer(args[0]).getFirstPlayed() == 0) {
+                sender.sendMessage(ChatColor.RED + "Игрок не найден");
+                return;
+            }
         }
 
         SocialData social = Main.social.getSocial(sender.getName());

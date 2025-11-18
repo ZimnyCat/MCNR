@@ -6,7 +6,7 @@
 
     <groupId>xyz.mcnr</groupId>
     <artifactId>MCNR-Utils</artifactId>
-    <version>17</version>
+    <version>18</version>
     <packaging>jar</packaging>
 
     <name>MCNR-Utils</name>

@@ -117,8 +117,17 @@ public class SocialHandler implements Listener {
         SocialData recipientSocial = getSocial(recipient);
 
         if (recipientSocial == null) {
-            sender.sendMessage(ChatColor.RED + "Игрок не найден");
-            return;
+            for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+                if (player.getName().equalsIgnoreCase(recipient)) {
+                    recipientSocial = getSocial(player.getName());
+                    recipient = player.getName();
+                    break;
+                }
+            }
+            if (recipientSocial == null) {
+                sender.sendMessage(ChatColor.RED + "Игрок не найден");
+                return;
+            }
         }
 
         message = message.trim();
