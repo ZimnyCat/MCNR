@@ -16,7 +16,7 @@ public class SocialData {
     private String lastRecipient;
     private String lastSender;
     private boolean afk;
-    private short offlineMsgLimit = 5;
+    private short offlineMsgLimit = 10;
 
     private boolean anonChat = true;
 
