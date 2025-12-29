@@ -1,10 +1,12 @@
 package xyz.mcnr.proxy;
 
+import com.velocitypowered.api.event.ResultedEvent;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import net.kyori.adventure.text.Component;
@@ -13,6 +15,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -21,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Plugin(
         id = "mcnr-proxy",
         name = "MCNR-Proxy",
-        version = "2"
+        version = "3"
 )
 public class Proxy {
     ProxyServer server;
@@ -73,6 +76,16 @@ public class Proxy {
 
     @Subscribe
     public void onLogin(LoginEvent event) {
+        byte connections = 0;
+        InetAddress playerIP = event.getPlayer().getRemoteAddress().getAddress();
+
+        for (Player p : server.getAllPlayers())
+            if (p.getRemoteAddress().getAddress().equals(playerIP))
+                connections++;
+
+        if (connections > 2)
+            event.setResult(ResultedEvent.ComponentResult.denied(Component.text("Слишком много подключений")));
+
         if (event.getPlayer().getProtocolVersion().getProtocol() < minProtocol)
             event.getPlayer().disconnect(Component.text("Версия не поддерживается"));
     }
