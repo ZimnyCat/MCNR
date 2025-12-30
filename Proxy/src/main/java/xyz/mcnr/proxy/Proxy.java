@@ -83,7 +83,7 @@ public class Proxy {
             if (p.getRemoteAddress().getAddress().equals(playerIP))
                 connections++;
 
-        if (connections > 2)
+        if (connections >= 2)
             event.setResult(ResultedEvent.ComponentResult.denied(Component.text("Слишком много подключений")));
 
         if (event.getPlayer().getProtocolVersion().getProtocol() < minProtocol)
