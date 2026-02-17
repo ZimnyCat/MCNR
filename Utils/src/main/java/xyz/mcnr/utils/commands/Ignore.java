@@ -39,16 +39,8 @@ public class Ignore extends CommandBase {
         }
 
         if (Bukkit.getOfflinePlayer(args[0]).getFirstPlayed() == 0) {
-            for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-                if (player.getName().equalsIgnoreCase(args[0])) {
-                    args[0] = player.getName();
-                    break;
-                }
-            }
-            if (Bukkit.getOfflinePlayer(args[0]).getFirstPlayed() == 0) {
-                sender.sendMessage(ChatColor.RED + "Игрок не найден");
-                return;
-            }
+            sender.sendMessage(ChatColor.RED + "Игрок не найден");
+            return;
         }
 
         SocialData social = Main.social.getSocial(sender.getName());

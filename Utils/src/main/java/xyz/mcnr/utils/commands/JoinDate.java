@@ -40,16 +40,8 @@ public class JoinDate extends CommandBase {
         SocialData social = Main.social.getSocial(args[0]);
 
         if (social == null) {
-            for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-                if (player.getName().equalsIgnoreCase(args[0])) {
-                    social = Main.social.getSocial(player.getName());
-                    break;
-                }
-            }
-            if (social == null) {
-                sender.sendMessage(ChatColor.RED + "Игрок не найден");
-                return;
-            }
+            sender.sendMessage(ChatColor.RED + "Игрок не найден");
+            return;
         }
 
         OfflinePlayer player = social.getPlayer();
