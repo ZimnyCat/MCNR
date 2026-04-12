@@ -1,5 +1,6 @@
 package xyz.mcnr.proxy;
 
+import com.google.inject.Inject;
 import com.velocitypowered.api.event.ResultedEvent;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -12,7 +13,6 @@ import com.velocitypowered.api.proxy.server.ServerPing;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
