@@ -1,0 +1,41 @@
+body {
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    font-family: "Minecraft Rus";
+}
+@font-face {
+    font-family: "Kremlin";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/kremlin.woff") format("woff");
+}
+@font-face {
+    font-family: "Minecraft Rus";
+    src: url("../fonts/minecraft.ttf") format("truetype");
+}
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+}
+a {
+    text-decoration: none;
+}
+input {
+    background-color: black;
+    color: white;
+    border-color: lightgreen;
+    font-size: 16px;
+    font-family: "Minecraft Rus";
+}
+button {
+    background-color: black;
+    color: lightgreen;
+    border-color: lightgreen;
+    font-size: 16px;
+    font-family: "Minecraft Rus";
+}

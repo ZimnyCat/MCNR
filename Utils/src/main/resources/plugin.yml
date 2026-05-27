@@ -1,12 +1,10 @@
 name: MCNR-Utils
-version: '18'
+version: '19'
 main: xyz.mcnr.utils.Main
 api-version: '1.21.4'
 commands:
   help:
     usage: '/help'
-  rst:
-    usage: '/rst'
   joindate:
     usage: '/joindate <player>'
     aliases: [jd]
@@ -37,4 +35,6 @@ commands:
     usage: '/<command>'
     aliases: [hidejd]
   read:
+    usage: '/<command>'
+  stats:
     usage: '/<command>'

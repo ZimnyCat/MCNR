@@ -1,6 +1,8 @@
 package xyz.mcnr.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.AbstractHorse;
@@ -44,11 +46,13 @@ public class Main extends JavaPlugin implements Listener {
             new Last(),
             new Read(),
             new Reply(),
-            new Restart(),
+            new Stats(),
             new ToggleAnon(),
             new ToggleJD(),
             new Whisper()
     );
+
+    public static long size = 0;
 
     // регистрация ивентов, запуск задач авторестарта, обновления таба, удаление старых логов
     @Override
@@ -75,6 +79,10 @@ public class Main extends JavaPlugin implements Listener {
             if (file.lastModified() < (System.currentTimeMillis() - 864000000)) {
                 file.delete();
             }
+        }
+
+        for (World w : Bukkit.getWorlds()) {
+            size += getFolderSize(w.getWorldFolder());
         }
     }
 
@@ -186,5 +194,21 @@ public class Main extends JavaPlugin implements Listener {
 
     public static File getPluginFolder() {
         return pluginFolder;
+    }
+
+    private static long getFolderSize(File folder) {
+        long size = 0;
+        File[] files = folder.listFiles();
+        if (files == null) return 0;
+
+        for (File file : files) {
+            if (file.isFile()) {
+                size += file.length();
+            } else {
+                size += getFolderSize(file);
+            }
+        }
+
+        return size;
     }
 }

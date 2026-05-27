@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCNR Описание</title>
+    <link rel="stylesheet" href="{{ url_for("static", filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for("static", filename='favicon.ico') }}">
+</head>
+<body>
+    <div class="center" style="height: 90vh;">
+        <p>API</p>
+        <div>
+            <u>mcnr.xyz/api/stats</u> — статистика
+            <br><br>
+            <div style="margin-left: 20px;">
+                online — количество игроков на сервере сейчас
+                <br><br>
+                onlinePlayers — список имён игроков на сервере сейчас
+                <br><br>
+                restart — время до рестарта в минутах
+                <br><br>
+                size — размер карты сервера в гигабайтах
+                <br><br>
+                total — количество игроков на сервере за всё время
+                <br><br>
+                uptime — время работы сервера с последнего запуска в минутах
+            </div>
+            <br><br>
+            <u>mcnr.xyz/api/joindate?player=игрок</u> — данные об игроке
+            <br><br>
+            <div style="margin-left: 20px;">
+                first — время первого захода (unix-время, миллисекунды)
+                <br><br>
+                last — время последнего захода (unix-время, миллисекунды) или "Online"
+                <br><br>
+                name — имя игрока
+                <br><br>
+                playtime — суммарное время игры в часах
+            </div>
+            <br><br>
+            <a href={{ url_for("homepage") }} style="color: lightgreen;">&gt; назад</a>
+        </div>
+    </div>
+    <p align="center">
+        <a href="https://t.me/mcnrxyz" style="color: #24A1DE;">TELEGRAM</a>
+        -
+        <a href="https://github.com/ZimnyCat/MCNR" style="color: purple;">GITHUB</a>
+        -
+        <a href="https://minecraftrating.ru/promote/74060/#buy-rating" style="color: green;">SUPPORT</a>
+    </p>
+</body>
+</html>

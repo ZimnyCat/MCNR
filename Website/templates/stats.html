@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCNR Статистика</title>
+    <link rel="stylesheet" href="{{ url_for("static", filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for("static", filename='favicon.ico') }}">
+    <script type="text/javascript">
+        function togglePlayerList() {
+            if (document.getElementById("playerlist").style.display == "block") {
+                document.getElementById("playerlist").style.display = "none";
+            } else document.getElementById("playerlist").style.display = "block";
+        }
+    </script>
+
+</head>
+<body>
+    <div class="center" style="height: 90vh;">
+        <p>СТАТИСТИКА</p>
+        <div>
+            <br><br>
+            <a href={{ url_for("api_stats") }} style="color: lightgreen;">&gt; всего игроков: </a>
+            {{ data.total }}
+            <br><br>
+            <a href={{ url_for("api_stats") }} style="color: lightgreen;">&gt; игроков онлайн: </a>
+            {{ data.online }}
+            {% if data.onlinePlayers %}
+                <button onclick="togglePlayerList()">список игроков</button>
+                <div id="playerlist" style="display: none;">
+                    <br>
+                    {% for player in data.onlinePlayers %}
+                        {{ player }}&nbsp
+                        {% if loop.index % 5 == 0 %}
+                            <br><br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <br><br>
+            <a href={{ url_for("api_stats") }} style="color: lightgreen;">&gt; размер карты: </a>
+            {{ data.size }} GB
+            <br><br>
+            <a href={{ url_for("api_stats") }} style="color: lightgreen;">&gt; последний рестарт: </a>
+            {{ data.uptime }} мин. назад
+            <br><br>
+            <a href={{ url_for("api_stats") }} style="color: lightgreen;">&gt; до следующего рестарта: </a>
+            {{ data.restart }} мин.
+            <br><br>
+            <form method="GET">
+                <a href={{ url_for("api_joindate") }} style="color: lightgreen;">&gt; игрок </a>
+                <input type="text" maxlength="16" name="player">
+                <button>запросить</button>
+            </form>
+            <br>
+            {% if playerdata %}
+                {% if 'error' in playerdata %}
+                    {{playerdata.error}}
+                {% else %}
+                    {{playerdata.name}}
+                    <br><br>
+                    {{playerdata.first}} 
+                    <br><br>
+                    {{playerdata.last}}
+                    <br><br>
+                    {{playerdata.playtime}}
+                {% endif %}
+                <br><br>
+            {% endif %}
+            <a href={{ url_for("homepage") }} style="color: lightgreen;">&gt; назад</a>
+        </div>
+    </div>
+    <p align="center">
+        <a href="https://t.me/mcnrxyz" style="color: #24A1DE;">TELEGRAM</a>
+        -
+        <a href="https://github.com/ZimnyCat/MCNR" style="color: purple;">GITHUB</a>
+        -
+        <a href="https://minecraftrating.ru/promote/74060/#buy-rating" style="color: green;">SUPPORT</a>
+    </p>
+</body>
+</html>
