@@ -5,6 +5,7 @@ from gson import json
 from datetime import datetime
 from dotenv import load_dotenv
 import os
+import re
 
 
 load_dotenv()
@@ -18,12 +19,16 @@ def homepage():
     return render_template("index.html")
 
 
+def sanitize(player):
+    return re.sub(r'[^a-zA-Z0-9_]', '', player)[:16]
+
+
 def get_joindate(player):
     try:
         rcon = RCONClient("localhost")
         if password is not None:
             rcon.login(password)
-        response = rcon.command("joindate " + player)
+        response = rcon.command("joindate " + sanitize(player))
         rcon.stop()
         return json.loads(response.replace("\n\u001b[0m", ""))
     except:
