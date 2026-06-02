@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCNR Статус</title>
+    <link rel="stylesheet" href="{{ url_for("static", filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for("static", filename='favicon.ico') }}">
+</head>
+<body>
+    <div class="center" style="height: 90vh;">
+        <p>СТАТУС</p>
+        <div>
+            proxy: {{ data.proxy }}
+            <br><br>
+            auth: {{ data.auth }}
+            <br><br>
+            surv: {{ data.surv }}
+            <br><br>
+            <a href={{ url_for("homepage") }} style="color: lightgreen;">&gt; назад</a>
+        </div>
+    </div>
+    <p align="center">
+        <a href="https://t.me/mcnrxyz" style="color: #24A1DE;">TELEGRAM</a>
+        -
+        <a href="https://github.com/ZimnyCat/MCNR" style="color: purple;">GITHUB</a>
+        -
+        <a href="https://minecraftrating.ru/promote/74060/#buy-rating" style="color: green;">SUPPORT</a>
+    </p>
+</body>
+</html>

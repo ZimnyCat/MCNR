@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask import render_template
-from mctools import RCONClient
+from mctools import RCONClient, PINGClient
 from gson import json
 from datetime import datetime
 from dotenv import load_dotenv
@@ -11,7 +11,8 @@ import re
 load_dotenv()
 password = os.getenv("RCON_PASSWORD")
 app = Flask(__name__)
-data_cache = ["", 0]
+stats_cache = ["", 0]
+status_cache = ["", 0]
 
 
 @app.route("/")
@@ -45,17 +46,17 @@ def api_joindate():
 
 def get_stats():
     try:
-        if datetime.now().timestamp() - data_cache[1] > 10:
+        if datetime.now().timestamp() - stats_cache[1] > 10:
             rcon = RCONClient("localhost")
             if password is not None:
                 rcon.login(password)
             response = rcon.command("stats")
             rcon.stop()
-            data_cache[0] = response.replace("\n\u001b[0m", "")
-            data_cache[1] = datetime.now().timestamp()
+            stats_cache[0] = response.replace("\n\u001b[0m", "")
+            stats_cache[1] = datetime.now().timestamp()
     except:
         None
-    return json.loads(data_cache[0])
+    return json.loads(stats_cache[0])
 
 
 @app.route("/api/stats")
@@ -105,6 +106,23 @@ def desc():
 def api():
     return render_template("api.html")
 
+
+def is_online(port):
+    try:
+        ping = PINGClient("localhost", port)
+        ping.get_stats()["players"]["max"]
+        return "ON"
+    except:
+        return "OFF"
+
+
+@app.route("/status")
+def status():
+    if datetime.now().timestamp() - stats_cache[1] > 10:
+        stats_cache[0] = {"proxy": is_online(25565), "auth": is_online(25566), "surv": is_online(25567)}
+        stats_cache[1] = datetime.now().timestamp()
+    return render_template("status.html", data=stats_cache[0])
+    
 
 if __name__ == "__main__":
     app.run(debug=False)
