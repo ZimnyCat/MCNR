@@ -41,6 +41,9 @@
             <a href={{ url_for("api_stats") }} style="color: lightgreen;">&gt; размер карты: </a>
             {{ data.size }} GB
             <br><br>
+            <a href={{ url_for("api_stats") }} style="color: lightgreen;">&gt; игровой день: </a>
+            {{ data.gameDay }}
+            <br><br>
             <a href={{ url_for("api_stats") }} style="color: lightgreen;">&gt; последний рестарт: </a>
             {{ data.uptime }} мин. назад
             <br><br>

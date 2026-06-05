@@ -41,6 +41,7 @@ public class Stats extends CommandBase {
         sender.sendMessage("Статистика сервера");
         sender.sendMessage("Игроков за всё время: " + Bukkit.getOfflinePlayers().length);
         sender.sendMessage("Размер карты: " + Math.round(Main.size / (1024.0 * 1024.0 * 1024.0) * 10.0) / 10.0 + " GB");
+        sender.sendMessage("Игровой день: " + Bukkit.getWorld("world").getFullTime() / 24000);
         sender.sendMessage("Последний перезапуск: " + String.format("%.0f мин. назад", (System.currentTimeMillis() - Main.restart.startTime) / 60000f));
         sender.sendMessage(
                 "До следующего перезапуска: " + String.format("%.0f мин.", Math.floor(((Main.restart.restartTime * 1000) - (System.currentTimeMillis() - Main.restart.startTime))/60000f))
@@ -56,6 +57,7 @@ public class Stats extends CommandBase {
         response.put("online", Bukkit.getOnlinePlayers().size());
         response.put("onlinePlayers", players);
         response.put("size", Math.round(Main.size / (1024.0 * 1024.0 * 1024.0) * 10.0) / 10.0);
+        response.put("gameDay", Bukkit.getWorld("world").getFullTime() / 24000);
         response.put("uptime", (int)((System.currentTimeMillis() - Main.restart.startTime) / 60000f));
         response.put("restart", (int)(((Main.restart.restartTime * 1000) - (System.currentTimeMillis() - Main.restart.startTime))/60000f));
         sender.sendMessage(gson.toJson(response));

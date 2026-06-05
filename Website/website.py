@@ -118,10 +118,10 @@ def is_online(port):
 
 @app.route("/status")
 def status():
-    if datetime.now().timestamp() - stats_cache[1] > 10:
-        stats_cache[0] = {"proxy": is_online(25565), "auth": is_online(25566), "surv": is_online(25567)}
-        stats_cache[1] = datetime.now().timestamp()
-    return render_template("status.html", data=stats_cache[0])
+    if datetime.now().timestamp() - status_cache[1] > 10:
+        status_cache[0] = {"proxy": is_online(25565), "auth": is_online(25566), "surv": is_online(25567)}
+        status_cache[1] = datetime.now().timestamp()
+    return render_template("status.html", data=status_cache[0])
     
 
 if __name__ == "__main__":
